@@ -1,0 +1,5 @@
+include ':TyUI'
+include ':TyTool'
+include ':TyBaseJ'
+include ':TyToolDemo'
+rootProject.name = "TyTool"
