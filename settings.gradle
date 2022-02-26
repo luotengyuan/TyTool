@@ -2,4 +2,5 @@ include ':TyUI'
 include ':TyTool'
 include ':TyBaseJ'
 include ':TyToolDemo'
+include ':TyPreferences'
 rootProject.name = "TyTool"

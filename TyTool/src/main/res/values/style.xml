@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+    </style>
+
+    <!-- 滑动关闭界面的样式 start -->
+    <style name="AppTheme.Activity.Slide" parent="AppTheme">
+        <!-- 使用透明色 -->
+        <item name="android:windowBackground">@color/translucence</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@style/AppTheme.Slide.Animation</item>
+    </style>
+    <style name="AppTheme.Slide.Animation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/anim_slide_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/anim_slide_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/anim_slide_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/anim_slide_out</item>
+    </style>
+    <!-- 滑动关闭界面的样式 end-->
+
+
+    <!--根据项目改进样式-->
+
+    <!-- toolbar样式 -->
+    <style name="ToolbarTheme">
+        <!--背景色-->
+        <item name="android:background">@color/colorPrimary</item>
+        <!--最小高度-->
+        <item name="android:minHeight">?attr/actionBarSize</item>
+    </style>
+    <!-- toolbar字体样式 -->
+    <style name="Toolbar.TextTheme" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <!--字体颜色-->
+        <item name="android:textColor">@color/white</item>
+        <!--字体大小-->
+        <item name="android:textSize">18sp</item>
+    </style>
+    <!--toolbar弹出菜单样式-->
+    <style name="ToolbarPopupTheme" parent="@style/ThemeOverlay.AppCompat.Light">
+        <!--新增一个item，用于控制menu-->
+        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
+    </style>
+    <style name="OverflowMenuStyle" parent="Widget.AppCompat.Light.PopupMenu.Overflow">
+        <!--把该属性改为false即可使menu位置位于toolbar之下-->
+        <item name="overlapAnchor">false</item>
+    </style>
+
+</resources>

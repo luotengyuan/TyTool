@@ -12,6 +12,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/TyBaseJ" />
+            <option value="$PROJECT_DIR$/TyPreferences" />
             <option value="$PROJECT_DIR$/TyTool" />
             <option value="$PROJECT_DIR$/TyToolDemo" />
             <option value="$PROJECT_DIR$/TyUI" />

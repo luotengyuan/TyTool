@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_crash"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="程序出现异常"
+        android:textColor="#ea9518"
+        android:textSize="25dp"
+        android:layout_marginTop="10dp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/tv_ty_crash_text"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="发送给开发者"
+        android:id="@+id/btn_ty_crash_send_to_developer"
+        android:background="@drawable/shape_ty_toast_bg_normal"
+        android:layout_margin="5dp"
+        android:layout_weight="0"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="重新启动"
+        android:id="@+id/btn_ty_crash_restart"
+        android:background="@drawable/shape_ty_toast_bg_success"
+        android:layout_margin="5dp"
+        android:layout_weight="0"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="退出软件"
+        android:id="@+id/btn_ty_crash_exit"
+        android:background="@drawable/shape_ty_toast_bg_fail"
+        android:layout_margin="5dp"
+        android:layout_weight="0"/>
+
+</LinearLayout>
