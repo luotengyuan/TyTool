@@ -5,11 +5,9 @@ import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
+import com.lois.tytool.basej.debug.TyLog;
 import com.lois.tytool.basej.io.FileUtils;
-
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.lois.tytool.basej.io.IOUtils;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -27,7 +25,6 @@ import javax.imageio.ImageIO;
  */
 public class BarCodeUtils {
 
-    private static Logger logger = LoggerFactory.getLogger(BarCodeUtils.class);
     private BarCodeUtils(){
 
     }
@@ -70,7 +67,7 @@ public class BarCodeUtils {
             if(bitMatrix != null){
                 bitMatrix.clear();
             }
-            IOUtils.closeQuietly(stream);
+            IOUtils.close(stream);
         }
     }
 
@@ -94,12 +91,12 @@ public class BarCodeUtils {
             result = multiReader.decode(bitmap, null);
             return result.getText();
         } catch (IOException e) {
-            logger.error(e.getMessage(), e);
-            logger.error("解析条形码【{}】失败！", imgPath);
+            TyLog.e(e.getMessage(), e);
+            TyLog.e("解析条形码【{}】失败！", imgPath);
             return null;
         } catch (NotFoundException e) {
-            logger.error(e.getMessage(), e);
-            logger.error("条形码图片路径：【{}】不存在！", imgPath);
+            TyLog.e(e.getMessage(), e);
+            TyLog.e("条形码图片路径：【{}】不存在！", imgPath);
             return null;
         } finally {
             if(image != null){

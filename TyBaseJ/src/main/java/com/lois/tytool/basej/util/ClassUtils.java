@@ -2,10 +2,8 @@ package com.lois.tytool.basej.util;
 
 import com.lois.tytool.basej.constant.BaseTypeConstants;
 import com.lois.tytool.basej.constant.FileConstants;
+import com.lois.tytool.basej.debug.TyLog;
 import com.lois.tytool.basej.string.StringUtils;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -21,7 +19,6 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-
 /**
  * 类工具
  * @Author Luo.T.Y
@@ -29,7 +26,7 @@ import java.util.jar.JarFile;
  * @Time 20:50
  */
 public class ClassUtils {
-	private static Logger logger = LoggerFactory.getLogger(ClassUtils.class);
+
 	private static char DOT = '.';
 	private static String DOT_STR = "\\.";
 	private static String SPLIT_DOT = ".";
@@ -64,7 +61,7 @@ public class ClassUtils {
 						//file类型的扫描
 						// 获取包的物理路径
 						String filePath = URLDecoder.decode(url.getFile(), "UTF-8");
-						logger.debug("扫描的文件路径filePath: {}", filePath);
+						TyLog.v("扫描的文件路径filePath: {}", filePath);
 						// 以文件的方式扫描整个包下的文件 并添加到集合中
 						findAndAddClassesInPackageByFile(packageName, filePath, recursive, classes);
 					} else if (FileConstants.JAR_FILE.contains(protocol) || FileConstants.ZIP_FILE.contains(protocol)) {
@@ -119,14 +116,14 @@ public class ClassUtils {
 												String cn = packageName + DOT + className;
 												classes.add(Class.forName(cn));
 											} catch (ClassNotFoundException e) {
-												logger.error("找不到指定class：{}",packageName + DOT + className, e);
+												TyLog.e("找不到指定class：{}",packageName + DOT + className, e);
 											}
 										}
 									}
 									}
 							}
 						} catch (IOException e) {
-							logger.error("从jar包获取文件出错", e);
+							TyLog.e("从jar包获取文件出错", e);
 						} finally {
 							if (jar != null) {
 								jar.close();
@@ -135,7 +132,7 @@ public class ClassUtils {
 					}
 				}
 			} catch (IOException e) {
-				logger.error(e.getMessage(), e);
+				TyLog.e(e.getMessage(), e);
 			}
 
 			return classes;
@@ -181,7 +178,7 @@ public class ClassUtils {
 					// 添加到集合中去
 					classes.add(Thread.currentThread().getContextClassLoader().loadClass(packageName + '.' + className));
 				} catch (ClassNotFoundException e) {
-					logger.error("找不到指定class：{}", packageName + '.' + className, e);
+					TyLog.e("找不到指定class：{}", packageName + '.' + className, e);
 				}
 			}
 		}
@@ -249,7 +246,7 @@ public class ClassUtils {
 			//根据类名，映射对象
 			obj = Class.forName(className);
 		} catch (ClassNotFoundException e) {
-			logger.error("找不到指定的class:{}", className, e);
+			TyLog.e("找不到指定的class:{}", className, e);
 		}
 		return obj;
 	}

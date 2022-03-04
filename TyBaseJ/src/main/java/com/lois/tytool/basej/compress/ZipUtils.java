@@ -1,9 +1,8 @@
 package com.lois.tytool.basej.compress;
 
 import com.lois.tytool.basej.exception.ZipException;
+import com.lois.tytool.basej.io.IOUtils;
 import com.lois.tytool.basej.string.StringUtils;
-
-import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.util.Enumeration;
@@ -74,7 +73,7 @@ public class ZipUtils {
         } catch (FileNotFoundException e) {
             throw new ZipException(e);
         } finally {
-            IOUtils.closeQuietly(fileOutputStream);
+            IOUtils.close(fileOutputStream);
         }
     }
 
@@ -95,7 +94,7 @@ public class ZipUtils {
         } catch (FileNotFoundException e) {
             throw new ZipException(e);
         } finally {
-            IOUtils.closeQuietly(fis);
+            IOUtils.close(fis);
         }
     }
 
@@ -119,7 +118,7 @@ public class ZipUtils {
         } catch (IOException e) {
             throw new ZipException(e);
         } finally {
-            IOUtils.closeQuietly(zos);
+            IOUtils.close(zos);
         }
     }
 
@@ -139,7 +138,7 @@ public class ZipUtils {
         } catch (FileNotFoundException e) {
             throw new ZipException(e);
         } finally {
-            IOUtils.closeQuietly(fileOutputStream);
+            IOUtils.close(fileOutputStream);
         }
 
     }
@@ -159,7 +158,7 @@ public class ZipUtils {
         } catch (FileNotFoundException e) {
             throw new ZipException(e);
         } finally {
-            IOUtils.closeQuietly(fileOutputStream);
+            IOUtils.close(fileOutputStream);
         }
     }
 
@@ -180,7 +179,7 @@ public class ZipUtils {
         try {
             toZip(files, zos, file.getName());
         } finally {
-            IOUtils.closeQuietly(zos);
+            IOUtils.close(zos);
         }
     }
 
@@ -365,7 +364,7 @@ public class ZipUtils {
                 } catch (FileNotFoundException e) {
                     throw new ZipException(e);
                 } finally {
-                    IOUtils.closeQuietly(fileOutputStream);
+                    IOUtils.close(fileOutputStream);
                 }
             }
         } catch (IOException e) {

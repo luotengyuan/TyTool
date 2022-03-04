@@ -14,14 +14,19 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters "armeabi-v7a"
+        }
     }
 
-//    buildTypes {
-//        release {
-//            minifyEnabled false
-//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//        }
-//    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -35,6 +40,7 @@ dependencies {
     implementation project(path: ':TyTool')
     implementation project(path: ':TyBaseJ')
     implementation project(path: ':TyPreferences')
+    implementation project(path: ':TyTts')
     annotationProcessor project(path: ':TyPreferences')
     testImplementation rootProject.ext.dependencies["junit:junit"]
     androidTestImplementation rootProject.ext.dependencies["androidx.test.ext:junit"]

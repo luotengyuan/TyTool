@@ -1,4 +1,5 @@
 package com.lois.tytool.basej.secert.symmetric;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.security.Permission;

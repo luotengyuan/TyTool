@@ -1,13 +1,11 @@
 package com.lois.tytool.basej.secert;
 
 import com.lois.tytool.basej.constant.SecretConstants;
+import com.lois.tytool.basej.debug.TyLog;
 import com.lois.tytool.basej.exception.EncryptionAndDecryptionException;
 import com.lois.tytool.basej.secert.enumeration.Padding;
 import com.lois.tytool.basej.string.StringUtils;
 import com.lois.tytool.basej.util.HexUtils;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -43,7 +41,7 @@ import javax.crypto.spec.SecretKeySpec;
  * @Time 20:50
  */
 public final class BaseSecret {
-    private static Logger logger = LoggerFactory.getLogger(BaseSecret.class);
+
     private static String AES = "AES";
 
     private BaseSecret() {
@@ -237,7 +235,7 @@ public final class BaseSecret {
             mac.init(sk);
             return mac.doFinal(res);
         } catch (NoSuchAlgorithmException e) {
-            logger.error(e.getMessage(), e);
+            TyLog.e(e.getMessage(), e);
             throw new IllegalArgumentException("算法：【" + algorithm + "】无法识别，");
         } catch (InvalidKeyException e) {
             throw new IllegalArgumentException(e);
@@ -253,7 +251,7 @@ public final class BaseSecret {
         try {
             return KeyFactory.getInstance(secretConsts);
         } catch (NoSuchAlgorithmException e) {
-            logger.error("算法：【" + secretConsts + "】无法识别，" + e.getMessage());
+            TyLog.e("算法：【" + secretConsts + "】无法识别，" + e.getMessage());
             return null;
         }
     }
@@ -281,9 +279,9 @@ public final class BaseSecret {
                 key = keyFactory.generatePrivate(pkcs8KeySpec);
             }
         } catch (InvalidKeySpecException e) {
-            logger.error(e.getMessage(), e);
+            TyLog.e(e.getMessage(), e);
         } catch (NullPointerException e) {
-            logger.error(e.getMessage(), e);
+            TyLog.e(e.getMessage(), e);
         }
         return key;
     }
@@ -299,7 +297,7 @@ public final class BaseSecret {
                 secureRandom = SecureRandom.getInstance(secureType);
             }
         } catch (NoSuchAlgorithmException e) {
-            logger.error("算法：【" + providerType + "】无法识别，" + e.getMessage());
+            TyLog.e("算法：【" + providerType + "】无法识别，" + e.getMessage());
             throw new IllegalArgumentException(e);
         }
 
@@ -358,11 +356,11 @@ public final class BaseSecret {
                     break;
             }
         } catch (NoSuchAlgorithmException e) {
-            logger.error("算法：【" + keyType + "】无法识别，" + e.getMessage());
+            TyLog.e("算法：【" + keyType + "】无法识别，" + e.getMessage());
         } catch (InvalidKeySpecException e) {
-            logger.error("非法密匙：【" + deSedeKeySpec + "】无法识别，" + e.getMessage());
+            TyLog.e("非法密匙：【" + deSedeKeySpec + "】无法识别，" + e.getMessage());
         } catch (InvalidKeyException e) {
-            logger.error("密匙" + keyFactory + "生成失败，算法模式：" + keyType + e.getMessage());
+            TyLog.e("密匙" + keyFactory + "生成失败，算法模式：" + keyType + e.getMessage());
         }
         return secretKey;
     }

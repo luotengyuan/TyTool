@@ -1,0 +1,18 @@
+LOCAL_PATH := $(call my-dir)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := LIBTTS
+LOCAL_SRC_FILES := $(LOCAL_PATH)/lib/libtts.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE    := tts
+LOCAL_SRC_FILES := TtsJni.c
+#测试时打开此行
+#TARGET_CFLAGS += -D_DEBUG
+TARGET_CFLAGS += -g
+LOCAL_LDLIBS := -llog
+### LOCAL_LDLIBS := -L$(LOCAL_PATH)/lib -ltts -llog
+LOCAL_STATIC_LIBRARIES := LIBTTS
+###LOCAL_LDFLAGS := $(LOCAL_PATH)/lib/libtts.a
+include $(BUILD_SHARED_LIBRARY)

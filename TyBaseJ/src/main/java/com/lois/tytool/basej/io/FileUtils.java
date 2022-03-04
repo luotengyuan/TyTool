@@ -118,7 +118,7 @@ public class FileUtils {
             file.createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
-            TyLog.print("crashed  " + e.toString());
+            TyLog.v("crashed  " + e.toString());
             return null;
         }
         return file;

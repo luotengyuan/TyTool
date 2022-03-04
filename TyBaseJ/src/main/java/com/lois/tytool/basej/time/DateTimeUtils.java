@@ -1,13 +1,12 @@
 package com.lois.tytool.basej.time;
 
 import com.lois.tytool.basej.constant.TimeConstants;
+import com.lois.tytool.basej.debug.TyLog;
 import com.lois.tytool.basej.math.ConvertUtils;
 import com.lois.tytool.basej.string.StringUtils;
 
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.time.DateFormatUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -24,7 +23,6 @@ import java.util.Locale;
  * @Time 14:13
  */
 public class DateTimeUtils {
-    private static Logger logger = LoggerFactory.getLogger(DateTimeUtils.class);
 
     public final static String DATE_TIME = "yyyy-MM-dd HH:mm:ss";
 
@@ -888,7 +886,7 @@ public class DateTimeUtils {
      */
     public static long daysBetween(Date start, Date end){
         if(start == null || end == null){
-            logger.error("The date must not be null. start:" + start + ", end:" + end);
+            TyLog.e("The date must not be null. start:" + start + ", end:" + end);
             return 0;
         }
         long endTime = end.getTime();

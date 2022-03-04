@@ -49,10 +49,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.RandomAccessFile;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.InetAddress;
@@ -569,15 +572,6 @@ public class SystemUtils {
      */
     public static String getAppFilePath(Context context) {
         return context.getExternalFilesDir(null).getAbsolutePath();
-    }
-
-    /**
-     * 获取内置SD路径
-     *
-     * @return
-     */
-    public static String getSDCardPath() {
-        return Environment.getExternalStorageDirectory().getPath();
     }
 
     /**
@@ -1489,5 +1483,634 @@ public class SystemUtils {
             name = name.toLowerCase();
         }
         return name;
+    }
+
+    /**
+     * 获取用户硬件信息
+     */
+    public static String getMobileInfo() {
+        StringBuffer sb = new StringBuffer();
+        //通过反射获取用户硬件信息
+        try {
+            Field[] fields = Build.class.getDeclaredFields();
+            for (Field field : fields) {
+                // 暴力反射,获取私有信息
+                field.setAccessible(true);
+                String name = field.getName();
+                String value = field.get(null).toString();
+                sb.append(name + "=" + value);
+                sb.append("\n");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 获取CPU硬件信息
+     *
+     * @return
+     */
+    static public String getCpuString() {
+        if (Build.CPU_ABI.equalsIgnoreCase("x86")) {
+            return "Intel";
+        }
+        String strInfo = "";
+        try {
+            byte[] bs = new byte[1024];
+            RandomAccessFile reader = new RandomAccessFile("/proc/cpuinfo", "r");
+            reader.read(bs);
+            String ret = new String(bs);
+            int index = ret.indexOf(0);
+            if (index != -1) {
+                strInfo = ret.substring(0, index);
+            } else {
+                strInfo = ret;
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return strInfo;
+    }
+
+    /**
+     * 获取CPU硬件类型
+     *
+     * @return
+     */
+    static public String getCpuType() {
+        String strInfo = getCpuString();
+        String strType = null;
+        if (strInfo.contains("ARMv5")) {
+            strType = "armv5";
+        } else if (strInfo.contains("ARMv6")) {
+            strType = "armv6";
+        } else if (strInfo.contains("ARMv7")) {
+            strType = "armv7";
+        } else if (strInfo.contains("Intel")) {
+            strType = "x86";
+        } else {
+            strType = "unknown";
+            return strType;
+        }
+        if (strInfo.contains("neon")) {
+            strType += "_neon";
+        } else if (strInfo.contains("vfpv3")) {
+            strType += "_vfpv3";
+        } else if (strInfo.contains(" vfp")) {
+            strType += "_vfp";
+        } else {
+            strType += "_none";
+        }
+        return strType;
+    }
+
+    /**
+     * 获取CPU参数对象
+     *
+     * @return
+     */
+    public static CPUInfo getCPUInfo() {
+        String strInfo = null;
+        try {
+            byte[] bs = new byte[1024];
+            RandomAccessFile reader = new RandomAccessFile("/proc/cpuinfo", "r");
+            reader.read(bs);
+            String ret = new String(bs);
+            int index = ret.indexOf(0);
+            if (index != -1) {
+                strInfo = ret.substring(0, index);
+            } else {
+                strInfo = ret;
+            }
+        } catch (IOException ex) {
+            strInfo = "";
+            ex.printStackTrace();
+        }
+        CPUInfo info = parseCPUInfo(strInfo);
+        info.mCPUMaxFreq = getMaxCpuFreq(0);
+        return info;
+    }
+
+    private final static String kCpuInfoPath = "/sys/devices/system/cpu/cpu";
+    private final static String kMaxFreqFilePath = "/cpufreq/cpuinfo_max_freq";
+
+    /**
+     * 获取CPU最大频率
+     * @param cpuIndex  CPU核心序号
+     * @return
+     */
+    public static int getMaxCpuFreq(int cpuIndex) {
+        int result = -1;
+        FileReader fr = null;
+        BufferedReader br = null;
+        try {
+            fr = new FileReader(kCpuInfoPath + cpuIndex + kMaxFreqFilePath);
+            br = new BufferedReader(fr);
+            String text = br.readLine();
+            if (text != null) {
+                result = Integer.parseInt(text.trim());
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fr != null) {
+                try {
+                    fr.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return result;
+    }
+
+    private final static String kMinFreqFilePath = "/cpufreq/cpuinfo_min_freq";
+
+    /**
+     * 获取CPU最小频率
+     * @param cpuIndex  CPU核心序号
+     * @return
+     */
+    public static int getMinCpuFreq(int cpuIndex) {
+        int result = -1;
+        FileReader fr = null;
+        BufferedReader br = null;
+        try {
+            fr = new FileReader(kCpuInfoPath + cpuIndex + kMinFreqFilePath);
+            br = new BufferedReader(fr);
+            String text = br.readLine();
+            if (text != null) {
+                result = Integer.parseInt(text.trim());
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fr != null) {
+                try {
+                    fr.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return result;
+    }
+
+    private final static String kCurFreqFilePath = "/cpufreq/cpuinfo_cur_freq";
+
+    /**
+     * 获取CPU当前频率
+     * @param cpuIndex  CPU核心序号
+     * @return
+     */
+    public static int getCurCpuFreq(int cpuIndex) {
+        int result = -1;
+        FileReader fr = null;
+        BufferedReader br = null;
+        try {
+            fr = new FileReader(kCpuInfoPath + cpuIndex + kCurFreqFilePath);
+            br = new BufferedReader(fr);
+            String text = br.readLine();
+            if (text != null) {
+                result = Integer.parseInt(text.trim());
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fr != null) {
+                try {
+                    fr.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return result;
+    }
+
+    public static class CPUInfo {
+        public CPUInfo() {
+        }
+
+        public static final int CPU_TYPE_UNKNOWN = 0x00000000;
+        public static final int CPU_TYPE_ARMV5TE = 0x00000001;
+        public static final int CPU_TYPE_ARMV6 = 0x00000010;
+        public static final int CPU_TYPE_ARMV7 = 0x00000100;
+        public static final int CPU_FEATURE_UNKNOWS = 0x00000000;
+        public static final int CPU_FEATURE_VFP = 0x00000001;
+        public static final int CPU_FEATURE_VFPV3 = 0x00000010;
+        public static final int CPU_FEATURE_NEON = 0x00000100;
+        public int mCPUType;
+        public int mCPUCount;
+        public int mCPUFeature;
+        public double mBogoMips;
+        public long mCPUMaxFreq;
+
+        @Override
+        public String toString() {
+            return "CPUInfo{" +
+                    "mCPUType=" + mCPUType +
+                    ", mCPUCount=" + mCPUCount +
+                    ", mCPUFeature=" + mCPUFeature +
+                    ", mBogoMips=" + mBogoMips +
+                    ", mCPUMaxFreq=" + mCPUMaxFreq +
+                    '}';
+        }
+    }
+
+    /**
+     * 解析CPU信息
+     *
+     * @param cpuInfo
+     * @return
+     * @hide
+     */
+    private static CPUInfo parseCPUInfo(String cpuInfo) {
+        if (cpuInfo == null || "".equals(cpuInfo)) {
+            return null;
+        }
+        CPUInfo ci = new CPUInfo();
+        ci.mCPUType = CPUInfo.CPU_TYPE_UNKNOWN;
+        ci.mCPUFeature = CPUInfo.CPU_FEATURE_UNKNOWS;
+        ci.mCPUCount = 1;
+        ci.mBogoMips = 0;
+        if (cpuInfo.contains("ARMv5")) {
+            ci.mCPUType = CPUInfo.CPU_TYPE_ARMV5TE;
+        } else if (cpuInfo.contains("ARMv6")) {
+            ci.mCPUType = CPUInfo.CPU_TYPE_ARMV6;
+        } else if (cpuInfo.contains("ARMv7")) {
+            ci.mCPUType = CPUInfo.CPU_TYPE_ARMV7;
+        }
+        if (cpuInfo.contains("neon")) {
+            ci.mCPUFeature |= CPUInfo.CPU_FEATURE_NEON;
+        }
+        if (cpuInfo.contains("vfpv3")) {
+            ci.mCPUFeature |= CPUInfo.CPU_FEATURE_VFPV3;
+        }
+        if (cpuInfo.contains(" vfp")) {
+            ci.mCPUFeature |= CPUInfo.CPU_FEATURE_VFP;
+        }
+        String[] items = cpuInfo.split("\n");
+        for (String item : items) {
+            if (item.contains("CPU variant")) {
+                int index = item.indexOf(": ");
+                if (index >= 0) {
+                    String value = item.substring(index + 2);
+                    try {
+                        ci.mCPUCount = Integer.decode(value);
+                        ci.mCPUCount = ci.mCPUCount == 0 ? 1 : ci.mCPUCount;
+                    } catch (NumberFormatException e) {
+                        ci.mCPUCount = 1;
+                    }
+                }
+            } else if (item.contains("BogoMIPS")) {
+                int index = item.indexOf(": ");
+                if (index >= 0) {
+                    String value = item.substring(index + 2);
+                }
+            }
+        }
+        return ci;
+    }
+
+    /**
+     * 获取设备内存大小值
+     *
+     * @return 内存大小, 单位MB
+     */
+    public static long getMemoryTotalSize() {
+        String str1 = "/proc/meminfo";
+        String str2;
+        String[] arrayOfString;
+        long initial_memory = 0;
+        try {
+            FileReader localFileReader = new FileReader(str1);
+            BufferedReader localBufferedReader = new BufferedReader(localFileReader, 8192);
+            str2 = localBufferedReader.readLine();
+            if (str2 != null) {
+                arrayOfString = str2.split("\\s+");
+                initial_memory = Integer.valueOf(arrayOfString[1]).intValue() / 1024;
+            }
+            localBufferedReader.close();
+            return initial_memory;
+        } catch (IOException e) {
+            return -1;
+        }
+    }
+
+    /**
+     * 获得可用的内存
+     * @param mContext
+     * @return
+     */
+    public static double getMemoryAvailableSize(Context mContext) {
+        double mem_available_size;
+        // 得到ActivityManager
+        ActivityManager am = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+        // 创建ActivityManager.MemoryInfo对象
+        ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
+        am.getMemoryInfo(mi);
+        // 取得剩余的内存空间
+        mem_available_size = mi.availMem / 1024.0 / 1024;
+        return mem_available_size;
+    }
+
+    /**
+     * 获取android CPU类型
+     *
+     * @return String CPU类型
+     */
+    public static String getCpuModel() {
+        String cpu_model = "";
+        CPUInfo in = getCPUInfo();
+        if ((in.mCPUType & CPUInfo.CPU_TYPE_ARMV5TE) == CPUInfo.CPU_TYPE_ARMV5TE) {
+            cpu_model = "armv5";
+        } else if ((in.mCPUType & CPUInfo.CPU_TYPE_ARMV6) == CPUInfo.CPU_TYPE_ARMV6) {
+            cpu_model = "armv6";
+        } else if ((in.mCPUType & CPUInfo.CPU_TYPE_ARMV7) == CPUInfo.CPU_TYPE_ARMV7) {
+            cpu_model = "armv7";
+        } else {
+            cpu_model = "unknown";
+        }
+        return cpu_model;
+    }
+
+    /**
+     * 获取android CPU特性
+     *
+     * @return String CPU特性
+     */
+    public static String getCpuFeature() {
+        String cpu_feature = "";
+        CPUInfo in = getCPUInfo();
+        if ((in.mCPUFeature & CPUInfo.CPU_FEATURE_NEON) == CPUInfo.CPU_FEATURE_NEON) {
+            cpu_feature = "neon";
+        } else if ((in.mCPUFeature & CPUInfo.CPU_FEATURE_VFP) == CPUInfo.CPU_FEATURE_VFP) {
+            cpu_feature = "vfp";
+        } else if ((in.mCPUFeature & CPUInfo.CPU_FEATURE_VFPV3) == CPUInfo.CPU_FEATURE_VFPV3) {
+            cpu_feature = "vfpv3";
+        } else {
+            cpu_feature = "unknown";
+        }
+        return cpu_feature;
+    }
+
+    /**
+     * 获取CPU使用情况(top -n 1 -m 5 命令)
+     */
+    public static String getCpuRate_top() {
+        //CPU 使用率
+        String result;
+        Process p = null;
+        StringBuilder sb = new StringBuilder();
+        try {
+            p = Runtime.getRuntime().exec("top -n 1 -m 5");
+            BufferedReader br = new BufferedReader(new InputStreamReader
+                    (p.getInputStream()));
+            while ((result = br.readLine()) != null) {
+                if (result.trim().length() < 1) {
+                    continue;
+                } else {
+                    sb.append(result + "\n");
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 获取CPU温度
+     * @return
+     */
+    public static String getCpuTemp() {
+        String temp = "Unknow";
+        BufferedReader br = null;
+        FileReader fr = null;
+        try {
+            File dir = new File("/sys/class/thermal/");
+            File[] files = dir.listFiles(new FileFilter() {
+                @Override
+                public boolean accept(File file) {
+                    if (Pattern.matches("thermal_zone[0-9]+", file.getName())) {
+                        return true;
+                    }
+                    return false;
+                }
+            });
+            final int SIZE = files.length;
+            String line = "";
+            String type = "";
+            for (int i = 0; i < SIZE; i++) {
+                fr = new FileReader("/sys/class/thermal/thermal_zone" + i + "/type");
+                br = new BufferedReader(fr);
+                line = br.readLine();
+                if (line != null) {
+                    type = line;
+                }
+                fr = new FileReader("/sys/class/thermal/thermal_zone" + i + "/temp");
+                br = new BufferedReader(fr);
+                line = br.readLine();
+                if (line != null) {
+                    // MTK CPU
+                    if (type.contains("cpu")) {
+                        long temperature = Long.parseLong(line);
+                        if (temperature < 0) {
+                            temp = "Unknow";
+                        } else {
+                            temp = (float) (temperature / 1000.0) + "";
+                        }
+                    } else if (type.contains("tsens_tz_sensor")) {
+                        // Qualcomm CPU
+                        long temperature = Long.parseLong(line);
+                        if (temperature < 0) {
+                            temp = "Unknow";
+                        } else if (temperature > 100) {
+                            temp = (float) (temperature / 10.0) + "";
+                        } else {
+                            temp = temperature + "";
+                        }
+                    }
+
+                }
+            }
+            if (fr != null) {
+                fr.close();
+            }
+            if (br != null) {
+                br.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (fr != null) {
+                try {
+                    fr.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return temp;
+    }
+
+    /**
+     * 获取CPU温度
+     * @return
+     */
+    public static long getCpuTemp2() {
+        //CPU温度
+        int result = -1;
+        FileReader fr = null;
+        BufferedReader br = null;
+        try {
+            fr = new FileReader("/sys/class/thermal/thermal_zone8/temp");
+            br = new BufferedReader(fr);
+            String text = br.readLine();
+            if (text != null) {
+                result = Integer.parseInt(text.trim());
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fr != null) {
+                try {
+                    fr.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 判断SDCard是否可用
+     *
+     * @return
+     */
+    public static boolean isSDCardEnable() {
+        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
+    }
+
+    /**
+     * 获取SD卡路径
+     *
+     * @return
+     */
+    public static String getSDCardPath() {
+        return Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
+    }
+
+    /**
+     * 获取SD卡的已使用百分百
+     *
+     * @return
+     */
+    public static double getSDCardUsedRate() {
+        File esd = Environment.getExternalStorageDirectory();
+        if (isSDCardEnable() && esd != null) {
+            return (esd.getTotalSpace() - esd.getFreeSpace()) * 1000.0 / esd.getTotalSpace();
+        }
+        return -1;
+    }
+
+    /**
+     * 获取SD卡的总容量 单位:M
+     *
+     * @return
+     */
+    public static double getSDCardAllSize() {
+        File esd = Environment.getExternalStorageDirectory();
+        if (isSDCardEnable() && esd != null) {
+            return esd.getTotalSpace() / 1024.0 / 1024;
+        }
+        return -1;
+    }
+
+    /**
+     * 获取SD卡的剩余容量 单位:M
+     *
+     * @return
+     */
+    public static double getSDCardAvailableSize() {
+        File esd = Environment.getExternalStorageDirectory();
+        if (isSDCardEnable() && esd != null) {
+            return esd.getFreeSpace() / 1024.0 / 1024;
+        }
+        return -1;
+    }
+
+    /**
+     * 获取指定路径所在空间的剩余可用容量字节数，单位byte
+     *
+     * @param filePath
+     * @return 容量字节 SDCard可用空间，内部存储可用空间
+     */
+    public static long getFreeBytes(String filePath) {
+        // 如果是sd卡的下的路径，则获取sd卡可用容量
+        if (filePath.startsWith(getSDCardPath())) {
+            filePath = getSDCardPath();
+        } else {// 如果是内部存储的路径，则获取内存存储的可用容量
+            filePath = Environment.getDataDirectory().getAbsolutePath();
+        }
+        StatFs stat = new StatFs(filePath);
+        long availableBlocks = (long) stat.getAvailableBlocks() - 4;
+        return stat.getBlockSize() * availableBlocks;
+    }
+
+    /**
+     * 获取系统存储路径
+     *
+     * @return
+     */
+    public static String getRootDirectoryPath() {
+        return Environment.getRootDirectory().getAbsolutePath();
     }
 }

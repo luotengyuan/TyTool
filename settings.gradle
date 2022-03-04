@@ -1,3 +1,8 @@
+//include ':TySerialPort'
+include ':TyTts'
+//include ':TyWebRtc'
+//include ':UnclassifiedA'
+//include ':UnclassifiedJ'
 include ':TyUI'
 include ':TyTool'
 include ':TyBaseJ'

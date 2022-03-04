@@ -1,9 +1,10 @@
 package com.lois.tytool.basej;
 
 import com.lois.tytool.basej.debug.TyLog;
-import com.lois.tytool.basej.time.DateTimeUtils;
+import com.lois.tytool.basej.network.http.OkHttpUtils;
+import com.lois.tytool.basej.string.Pinyin4jUtils;
 
-import java.util.ArrayList;
+import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 
 /**
  * @Description 测试类
@@ -12,7 +13,7 @@ import java.util.ArrayList;
  * @Time 20:20
  */
 public class Test {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws BadHanyuPinyinOutputFormatCombination {
 
 //        GZipUtil.compress("D:\\DataProcess\\Test\\bak\\Export_Output.dbf", "D:\\DataProcess\\Test\\bak\\");
 //        GZipUtil.compress("D:\\DataProcess\\Test\\bak", "D:\\DataProcess\\Test\\");//不支持文件夹
@@ -38,7 +39,7 @@ public class Test {
 
 //        System.out.println("Test: " + MathUtils.add("342", "566"));
 
-//        System.out.println("Test: " + OkHttpUtil.postJson("http://tas.8000.cn:9000/update/newMapVersion.do", "{\"datas\":[{\"code\":\"350200\",\"versionName\":\"2021302\"},{\"code\":\"000000\",\"versionName\":\"2021303\"},{\"code\":\"350203\",\"versionName\":\"2018401\"},{\"code\":\"350627\",\"versionName\":\"2018401\"}],\"iccid\":\"89860462041970612588\",\"indexStru\":\"1\",\"lat\":24487176,\"lon\":118182404,\"mapStru\":\"2\",\"pt\":\"map_update2_req\"}"));
+//        System.out.println("Test: " + OkHttpUtils.postJson("http://tas.8000.cn:9000/update/newMapVersion.do", "{\"datas\":[{\"code\":\"350200\",\"versionName\":\"2021302\"},{\"code\":\"000000\",\"versionName\":\"2021303\"},{\"code\":\"350203\",\"versionName\":\"2018401\"},{\"code\":\"350627\",\"versionName\":\"2018401\"}],\"iccid\":\"89860462041970612588\",\"indexStru\":\"1\",\"lat\":24487176,\"lon\":118182404,\"mapStru\":\"2\",\"pt\":\"map_update2_req\"}"));
 
 //        System.out.println("Test: " + StringUtils.GB2PinyinSzmStr("你好，世界！"));
 
@@ -88,6 +89,10 @@ public class Test {
 //        TyLog.print(StringUtils.addBinary("11", "1"));
 //        TyLog.print(StringUtils.addBinary("100001101", "1010101110"));
 //        TyLog.print(StringUtils.addBinary("101010101", "101010111"));
+
+//        System.out.println(Pinyin4jUtils.getQuanPin("你好，我还是Lois！", Pinyin4jUtils.Type.LOWERCASE, " ", false));
+//        System.out.println(Pinyin4jUtils.getPinYinHeadChar("你好，我还是Lois！"));
+//        TyLog.e(Pinyin4jUtils.getPinYinMultiple("你好，我还是Lois！", true));
 
         return;
     }

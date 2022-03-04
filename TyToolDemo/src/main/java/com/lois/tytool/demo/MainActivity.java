@@ -1,17 +1,16 @@
 package com.lois.tytool.demo;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.Manifest;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 
+import com.lois.tts.TtsJni;
+import com.lois.tts.TyTts;
 import com.lois.tytool.TyLog;
 import com.lois.tytool.TyTool;
 import com.lois.tytool.activity.BaseSlidingAppComatActivity;
-import com.lois.tytool.app.AppUtils;
-import com.lois.tytool.db.DBUtils;
+import com.lois.tytool.basej.io.FileUtils;
 
 /**
  * @author Administrator
@@ -64,8 +63,10 @@ public class MainActivity extends BaseSlidingAppComatActivity implements View.On
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_test1:
+                TyTts.getInstance().init(this);
                 break;
             case R.id.btn_test2:
+                TyTts.getInstance().startReadThread("你好，我和我的祖国。");
                 break;
             case R.id.btn_test3:
                 break;

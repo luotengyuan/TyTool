@@ -56,40 +56,40 @@ public class TyLog {
         return true;
     }
 
-    public static void print(String msg) {
+    public static void v(String msg) {
         if (VERBOSE >= MIN_SHOW_LEVEL && LOG_SWITCH) {
             String tag = getSimpleClassName();
-            print(tag, msg);
+            v(tag, msg);
         }
     }
 
-    public static void print(Object obj) {
+    public static void v(Object obj) {
         if (VERBOSE >= MIN_SHOW_LEVEL && LOG_SWITCH) {
             String tag = getSimpleClassName();
             String msg = getObjString(obj);
-            print(tag, msg);
+            v(tag, msg);
         }
     }
 
-    public static <E> void print(Collection<E> collection) {
+    public static <E> void v(Collection<E> collection) {
         if (VERBOSE >= MIN_SHOW_LEVEL && LOG_SWITCH && collection != null) {
             String tag = getSimpleClassName();
             for (Object obj: collection) {
-                print(tag, getObjString(obj));
+                v(tag, getObjString(obj));
             }
         }
     }
 
-    public static <A> void print(A[] arrays) {
+    public static <A> void v(A[] arrays) {
         if (VERBOSE >= MIN_SHOW_LEVEL && LOG_SWITCH && arrays != null) {
             String tag = getSimpleClassName();
             for (Object obj : arrays) {
-                print(tag, getObjString(obj));
+                v(tag, getObjString(obj));
             }
         }
     }
 
-    public static <K,V> void print(Map<K, V> maps) {
+    public static <K,V> void v(Map<K, V> maps) {
         if (VERBOSE >= MIN_SHOW_LEVEL && LOG_SWITCH && maps != null) {
             String tag = getSimpleClassName();
             for (Map.Entry<K, V> entry : maps.entrySet()) {
@@ -97,76 +97,76 @@ public class TyLog {
                 Object v = entry.getValue();
                 String ks = getObjString(k);
                 String vs = getObjString(v);
-                print(tag, ks + " --> " + vs);
+                v(tag, ks + " --> " + vs);
             }
         }
     }
 
-    public static void print(String tag, Object obj) {
+    public static void v(String tag, Object obj) {
         if (VERBOSE >= MIN_SHOW_LEVEL && LOG_SWITCH) {
             String msg = getObjString(obj);
-            print(tag, msg);
+            v(tag, msg);
         }
     }
 
-    public static void print(String tag, String msg, Object obj) {
+    public static void v(String tag, String msg, Object obj) {
         if (VERBOSE >= MIN_SHOW_LEVEL && LOG_SWITCH) {
             String msg_obj = getObjString(obj);
-            print(tag, msg + "  " + msg_obj);
+            v(tag, msg + "  " + msg_obj);
         }
     }
 
-    public static <E> void print(String tag, Collection<E> collection) {
+    public static <E> void v(String tag, Collection<E> collection) {
         if (VERBOSE >= MIN_SHOW_LEVEL && LOG_SWITCH && collection != null) {
             for (Object obj: collection) {
-                print(tag, getObjString(obj));
+                v(tag, getObjString(obj));
             }
         }
     }
 
-    public static <A> void print(String tag, A[] arrays) {
+    public static <A> void v(String tag, A[] arrays) {
         if (VERBOSE >= MIN_SHOW_LEVEL && LOG_SWITCH && arrays != null) {
             for (Object obj : arrays) {
-                print(tag, getObjString(obj));
+                v(tag, getObjString(obj));
             }
         }
     }
 
-    public static <K,V> void print(String tag, Map<K, V> maps) {
+    public static <K,V> void v(String tag, Map<K, V> maps) {
         if (VERBOSE >= MIN_SHOW_LEVEL && LOG_SWITCH && maps != null) {
             for (Map.Entry<K, V> entry : maps.entrySet()) {
                 Object k = entry.getKey();
                 Object v = entry.getValue();
                 String ks = getObjString(k);
                 String vs = getObjString(v);
-                print(tag, ks + " --> " + vs);
+                v(tag, ks + " --> " + vs);
             }
         }
     }
 
-    public static void print(String tag, String msg, boolean showMethodAndLine) {
+    public static void v(String tag, String msg, boolean showMethodAndLine) {
         if (VERBOSE >= MIN_SHOW_LEVEL && LOG_SWITCH) {
             if (showMethodAndLine) {
-                print(tag, msg + FileConstants.NEWLINE_STR_LINUX + callMethodAndLine());
+                v(tag, msg + FileConstants.NEWLINE_STR_LINUX + callMethodAndLine());
             } else {
-                print(tag, msg);
+                v(tag, msg);
             }
         }
     }
 
-    public static void print(String tag, String msg, boolean showMethodAndLine, boolean showCallHierarchy) {
+    public static void v(String tag, String msg, boolean showMethodAndLine, boolean showCallHierarchy) {
         if (VERBOSE >= MIN_SHOW_LEVEL && LOG_SWITCH) {
             if (showCallHierarchy) {
-                print(tag, msg + FileConstants.NEWLINE_STR_LINUX + getCallHierarchy());
+                v(tag, msg + FileConstants.NEWLINE_STR_LINUX + getCallHierarchy());
             } else if (showMethodAndLine) {
-                print(tag, msg + FileConstants.NEWLINE_STR_LINUX + callMethodAndLine());
+                v(tag, msg + FileConstants.NEWLINE_STR_LINUX + callMethodAndLine());
             } else {
-                print(tag, msg);
+                v(tag, msg);
             }
         }
     }
 
-    public static void print(String tag, String msg) {
+    public static void v(String tag, String msg) {
         if (VERBOSE >= MIN_SHOW_LEVEL && LOG_SWITCH) {
             String log = String.format("%s  %s/%s  %s\r\n", DateTimeUtils.getDateTime(), "V", tag, msg);
             System.out.println(log);
@@ -177,7 +177,7 @@ public class TyLog {
         }
     }
 
-    public static void printFormat(String format, Object... args) {
+    public static void vf(String format, Object... args) {
         if (VERBOSE >= MIN_SHOW_LEVEL && LOG_SWITCH) {
             String tag = getSimpleClassName();
             String msg = null;
@@ -193,11 +193,11 @@ public class TyLog {
                     msg = "null";
                 }
             }
-            print(tag, msg);
+            v(tag, msg);
         }
     }
 
-    public static void printFormat(String tag, String format, Object... args) {
+    public static void vf(String tag, String format, Object... args) {
         if (VERBOSE >= MIN_SHOW_LEVEL && LOG_SWITCH) {
             String msg = null;
             if (format == null) {
@@ -212,44 +212,44 @@ public class TyLog {
                     msg = "null";
                 }
             }
-            print(tag, msg);
+            v(tag, msg);
         }
     }
 
-    public static void printError(String msg) {
+    public static void e(String msg) {
         if (ERROR >= MIN_SHOW_LEVEL && LOG_SWITCH) {
             String tag = getSimpleClassName();
-            printError(tag, msg);
+            e(tag, msg);
         }
     }
 
-    public static void printError(Object obj) {
+    public static void e(Object obj) {
         if (ERROR >= MIN_SHOW_LEVEL && LOG_SWITCH) {
             String tag = getSimpleClassName();
             String msg = getObjString(obj);
-            printError(tag, msg);
+            e(tag, msg);
         }
     }
 
-    public static <E> void printError(Collection<E> collection) {
+    public static <E> void e(Collection<E> collection) {
         if (ERROR >= MIN_SHOW_LEVEL && LOG_SWITCH && collection != null) {
             String tag = getSimpleClassName();
             for (Object obj: collection) {
-                printError(tag, getObjString(obj));
+                e(tag, getObjString(obj));
             }
         }
     }
 
-    public static <A> void printError(A[] arrays) {
+    public static <A> void e(A[] arrays) {
         if (ERROR >= MIN_SHOW_LEVEL && LOG_SWITCH && arrays != null) {
             String tag = getSimpleClassName();
             for (Object obj : arrays) {
-                printError(tag, getObjString(obj));
+                e(tag, getObjString(obj));
             }
         }
     }
 
-    public static <K,V> void printError(Map<K, V> maps) {
+    public static <K,V> void e(Map<K, V> maps) {
         if (ERROR >= MIN_SHOW_LEVEL && LOG_SWITCH && maps != null) {
             String tag = getSimpleClassName();
             for (Map.Entry<K, V> entry : maps.entrySet()) {
@@ -257,76 +257,76 @@ public class TyLog {
                 Object v = entry.getValue();
                 String ks = getObjString(k);
                 String vs = getObjString(v);
-                printError(tag, ks + " --> " + vs);
+                e(tag, ks + " --> " + vs);
             }
         }
     }
 
-    public static void printError(String tag, Object obj) {
+    public static void e(String tag, Object obj) {
         if (ERROR >= MIN_SHOW_LEVEL && LOG_SWITCH) {
             String msg = getObjString(obj);
-            printError(tag, msg);
+            e(tag, msg);
         }
     }
 
-    public static void printError(String tag, String msg, Object obj) {
+    public static void e(String tag, String msg, Object obj) {
         if (ERROR >= MIN_SHOW_LEVEL && LOG_SWITCH) {
             String msg_obj = getObjString(obj);
-            printError(tag, msg + "  " + msg_obj);
+            e(tag, msg + "  " + msg_obj);
         }
     }
 
-    public static <E> void printError(String tag, Collection<E> collection) {
+    public static <E> void e(String tag, Collection<E> collection) {
         if (ERROR >= MIN_SHOW_LEVEL && LOG_SWITCH && collection != null) {
             for (Object obj: collection) {
-                printError(tag, getObjString(obj));
+                e(tag, getObjString(obj));
             }
         }
     }
 
-    public static <A> void printError(String tag, A[] arrays) {
+    public static <A> void e(String tag, A[] arrays) {
         if (ERROR >= MIN_SHOW_LEVEL && LOG_SWITCH && arrays != null) {
             for (Object obj : arrays) {
-                printError(tag, getObjString(obj));
+                e(tag, getObjString(obj));
             }
         }
     }
 
-    public static <K,V> void printError(String tag, Map<K, V> maps) {
+    public static <K,V> void e(String tag, Map<K, V> maps) {
         if (ERROR >= MIN_SHOW_LEVEL && LOG_SWITCH && maps != null) {
             for (Map.Entry<K, V> entry : maps.entrySet()) {
                 Object k = entry.getKey();
                 Object v = entry.getValue();
                 String ks = getObjString(k);
                 String vs = getObjString(v);
-                printError(tag, ks + " --> " + vs);
+                e(tag, ks + " --> " + vs);
             }
         }
     }
 
-    public static void printError(String tag, String msg, boolean showMethodAndLine) {
+    public static void e(String tag, String msg, boolean showMethodAndLine) {
         if (ERROR >= MIN_SHOW_LEVEL && LOG_SWITCH) {
             if (showMethodAndLine) {
-                printError(tag, msg + FileConstants.NEWLINE_STR_LINUX + callMethodAndLine());
+                e(tag, msg + FileConstants.NEWLINE_STR_LINUX + callMethodAndLine());
             } else {
-                printError(tag, msg);
+                e(tag, msg);
             }
         }
     }
 
-    public static void printError(String tag, String msg, boolean showMethodAndLine, boolean showCallHierarchy) {
+    public static void e(String tag, String msg, boolean showMethodAndLine, boolean showCallHierarchy) {
         if (ERROR >= MIN_SHOW_LEVEL && LOG_SWITCH) {
             if (showCallHierarchy) {
-                printError(tag, msg + FileConstants.NEWLINE_STR_LINUX + getCallHierarchy());
+                e(tag, msg + FileConstants.NEWLINE_STR_LINUX + getCallHierarchy());
             } else if (showMethodAndLine) {
-                printError(tag, msg + FileConstants.NEWLINE_STR_LINUX + callMethodAndLine());
+                e(tag, msg + FileConstants.NEWLINE_STR_LINUX + callMethodAndLine());
             } else {
-                printError(tag, msg);
+                e(tag, msg);
             }
         }
     }
 
-    public static void printError(String tag, String msg) {
+    public static void e(String tag, String msg) {
         if (ERROR >= MIN_SHOW_LEVEL && LOG_SWITCH) {
             String log = String.format("%s  %s/%s  %s\r\n", DateTimeUtils.getDateTime(), "E", tag, msg);
             System.err.println(log);
@@ -337,7 +337,7 @@ public class TyLog {
         }
     }
 
-    public static void printErrorFormat(String format, Object... args) {
+    public static void eFormat(String format, Object... args) {
         if (ERROR >= MIN_SHOW_LEVEL && LOG_SWITCH) {
             String tag = getSimpleClassName();
             String msg = null;
@@ -353,11 +353,11 @@ public class TyLog {
                     msg = "null";
                 }
             }
-            printError(tag, msg);
+            e(tag, msg);
         }
     }
 
-    public static void printErrorFormat(String tag, String format, Object... args) {
+    public static void eFormat(String tag, String format, Object... args) {
         if (ERROR >= MIN_SHOW_LEVEL && LOG_SWITCH) {
             String msg = null;
             if (format == null) {
@@ -372,7 +372,7 @@ public class TyLog {
                     msg = "null";
                 }
             }
-            printError(tag, msg);
+            e(tag, msg);
         }
     }
 

@@ -3,9 +3,6 @@ package com.lois.tytool.basej.secert.sm;
 import com.lois.tytool.basej.io.StreamUtils;
 import com.lois.tytool.basej.string.StringUtils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,7 +19,7 @@ import java.util.Arrays;
  * @Time 20:50
  */
 public class Sm3Security {
-    private static Logger log = LoggerFactory.getLogger(Sm3Security.class);
+
     private static char[] hexDigits = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e',
             'f' };
     private static final String IV_HEX_STR = "7380166f 4914b2b9 172442d7 da8a0600 a96f30bc 163138aa e38dee4d b0fb0e4e";

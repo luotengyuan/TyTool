@@ -1,5 +1,6 @@
 package com.lois.tytool.basej.secert.sm;
 
+import com.lois.tytool.basej.debug.TyLog;
 import com.lois.tytool.basej.secert.Base64Utils;
 import com.lois.tytool.basej.util.HexUtils;
 import com.lois.tytool.basej.io.StreamUtils;
@@ -8,8 +9,6 @@ import com.lois.tytool.basej.string.StringUtils;
 import org.bouncycastle.crypto.params.ECDomainParameters;
 import org.bouncycastle.math.ec.ECCurve;
 import org.bouncycastle.math.ec.ECPoint;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -32,7 +31,7 @@ import java.util.Arrays;
  * @Time 20:50
  */
 public class Sm2Security {
-    private static Logger log = LoggerFactory.getLogger(Sm2Security.class);
+
     private static BigInteger n = new BigInteger(
             "FFFFFFFE" + "FFFFFFFF" + "FFFFFFFF" + "FFFFFFFF" + "7203DF6B" + "21C6052B" + "53BBF409" + "39D54123", 16);
     private static BigInteger p = new BigInteger(
@@ -80,7 +79,7 @@ public class Sm2Security {
             }
             builder.append(hex.toUpperCase());
         }
-        log.info("16进制打印数组:" + builder.toString());
+        TyLog.v("16进制打印数组:" + builder.toString());
         return builder.toString();
     }
 
@@ -179,7 +178,7 @@ public class Sm2Security {
             /* 1 产生随机数k，k属于[1, n-1] */
             BigInteger k = random(n);
             if (debug) {
-                log.info("k: ");
+                TyLog.v("k: ");
                 printHexString(k.toByteArray());
             }
 
@@ -187,7 +186,7 @@ public class Sm2Security {
             ECPoint c1 = G.multiply(k);
             c1Buffer = c1.getEncoded(false);
             if (debug) {
-                log.info("c1: ");
+                TyLog.v("c1: ");
                 printHexString(c1Buffer);
             }
 
@@ -226,7 +225,7 @@ public class Sm2Security {
         System.arraycopy(c3, 0, encryptResult, c1Buffer.length + c2.length, c3.length);
 
         if (debug) {
-            log.info("密文：");
+            TyLog.v("密文：");
             printHexString(encryptResult);
         }
 
@@ -296,7 +295,7 @@ public class Sm2Security {
     public String decrypt(byte[] encryptData, BigInteger privateKey) {
 
         if (debug) {
-            log.info("encryptData length:{}", encryptData.length);
+            TyLog.v("encryptData length:{}", encryptData.length);
         }
 
         byte[] c1Byte = new byte[65];
@@ -323,7 +322,7 @@ public class Sm2Security {
         byte[] t = kdf(dBc1Bytes, klen);
 
         if (allZero(t)) {
-            log.info("all zero");
+            TyLog.v("all zero");
             throw new IllegalStateException();
         }
 
@@ -341,7 +340,7 @@ public class Sm2Security {
 
         if (debug) {
             try {
-                log.info("m = " + new String(m, "UTF8"));
+                TyLog.v("m = " + new String(m, "UTF8"));
             } catch (UnsupportedEncodingException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
@@ -353,19 +352,19 @@ public class Sm2Security {
                 dBc1.getYCoord().toBigInteger().toByteArray());
         if (Arrays.equals(u, c3)) {
             if (debug) {
-                log.info("解密成功");
+                TyLog.v("解密成功");
             }
             try {
                 return new String(m, "UTF8");
             } catch (UnsupportedEncodingException e) {
-                log.error(e.getMessage(), e);
+                TyLog.e(e.getMessage(), e);
             }
             return null;
         } else {
             if (debug) {
-                log.info("u = ");
+                TyLog.v("u = ");
                 printHexString(u);
-                log.info("c3 = ");
+                TyLog.v("c3 = ");
                 printHexString(c3);
                 System.err.println("解密验证失败");
             }
@@ -408,13 +407,13 @@ public class Sm2Security {
                 BigInteger xResult = x.pow(3).add(a.multiply(x)).add(b).mod(p);
 
                 if (debug) {
-                    log.info("xResult: " + xResult.toString());
+                    TyLog.v("xResult: " + xResult.toString());
                 }
 
                 BigInteger yResult = y.pow(2).mod(p);
 
                 if (debug) {
-                    log.info("yResult: " + yResult.toString());
+                    TyLog.v("yResult: " + yResult.toString());
                 }
 
                 if (yResult.equals(xResult) && publicKey.multiply(n).isInfinity()) {
@@ -438,7 +437,7 @@ public class Sm2Security {
 
         if (checkPublicKey(keyPair.getPublicKey())) {
             if (debug) {
-                log.info("generate key successfully");
+                TyLog.v("generate key successfully");
             }
             return keyPair;
         } else {
@@ -478,14 +477,14 @@ public class Sm2Security {
             fos = new FileOutputStream(file);
             fos.write(buffer);
         } catch (IOException e) {
-            log.error(e.getMessage(), e);
+            TyLog.e(e.getMessage(), e);
         } finally {
             try {
                 if (fos != null) {
                     fos.close();
                 }
             } catch (IOException e) {
-                log.error(e.getMessage(), e);
+                TyLog.e(e.getMessage(), e);
             }
         }
     }
@@ -514,7 +513,7 @@ public class Sm2Security {
 
             return curve.decodePoint(baos.toByteArray());
         } catch (IOException e) {
-            log.error(e.getMessage(), e);
+            TyLog.e(e.getMessage(), e);
         } finally {
 
             try {
@@ -522,7 +521,7 @@ public class Sm2Security {
                     fis.close();
                 }
             } catch (IOException e) {
-                log.error(e.getMessage(), e);
+                TyLog.e(e.getMessage(), e);
             }
         }
         return null;
@@ -548,14 +547,14 @@ public class Sm2Security {
             oos.writeObject(privateKey);
 
         } catch (IOException e) {
-            log.error(e.getMessage(), e);
+            TyLog.e(e.getMessage(), e);
         } finally {
             try {
                 if (oos != null) {
                     oos.close();
                 }
             } catch (IOException e) {
-                log.error(e.getMessage(), e);
+                TyLog.e(e.getMessage(), e);
             }
         }
     }
@@ -580,7 +579,7 @@ public class Sm2Security {
 
             return res;
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            TyLog.e(e.getMessage(), e);
         } finally {
             try {
                 if (ois != null) {
@@ -590,7 +589,7 @@ public class Sm2Security {
                     fis.close();
                 }
             } catch (IOException e) {
-                log.error(e.getMessage(), e);
+                TyLog.e(e.getMessage(), e);
             }
 
         }
@@ -612,7 +611,7 @@ public class Sm2Security {
             }
             res = baos.toByteArray();
         } catch (IOException e) {
-            log.error(e.getMessage(), e);
+            TyLog.e(e.getMessage(), e);
         }
         return res;
     }
@@ -628,7 +627,7 @@ public class Sm2Security {
         try {
             res = Sm3Security.hash(join(params));
         } catch (IOException e) {
-            log.error(e.getMessage(), e);
+            TyLog.e(e.getMessage(), e);
         }
         return res;
     }
@@ -763,7 +762,7 @@ public class Sm2Security {
             }
             return baos.toByteArray();
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            TyLog.e(e.getMessage(), e);
             
         }
         return null;
@@ -830,7 +829,7 @@ public class Sm2Security {
             byte[] xV = v.getXCoord().toBigInteger().toByteArray();
             byte[] yV = v.getYCoord().toBigInteger().toByteArray();
             byte[] kb = kdf(join(xV, yV, entity.Z, this.z), 16);
-            log.info("协商得B密钥:");
+            TyLog.v("协商得B密钥:");
             printHexString(kb);
             byte[] sB = sm3hash(new byte[] { 0x02 }, yV,
                     sm3hash(xV, entity.Z, this.z, ra.getXCoord().toBigInteger().toByteArray(),
@@ -868,16 +867,16 @@ public class Sm2Security {
             byte[] ka = kdf(join(xU, yU,
                     this.z, entity.Z), 16);
 //            key = ka;
-            log.info("协商得A密钥:");
+            TyLog.v("协商得A密钥:");
             printHexString(ka);
             byte[] s1= sm3hash(new byte[] { 0x02 }, yU,
                     sm3hash(xU, this.z, entity.Z, ra.getXCoord().toBigInteger().toByteArray(),
                             ra.getYCoord().toBigInteger().toByteArray(), rb.getXCoord().toBigInteger().toByteArray(),
                             rb.getYCoord().toBigInteger().toByteArray()));
             if(Arrays.equals(entity.S, s1)) {
-                log.info("B->A 密钥确认成功");
+                TyLog.v("B->A 密钥确认成功");
             } else {
-                log.info("B->A 密钥确认失败");
+                TyLog.v("B->A 密钥确认失败");
             }
             byte[] sA= sm3hash(new byte[] { 0x03 }, yU,
                     sm3hash(xU, this.z, entity.Z, ra.getXCoord().toBigInteger().toByteArray(),
@@ -901,9 +900,9 @@ public class Sm2Security {
                             ra.getYCoord().toBigInteger().toByteArray(), this.ra.getXCoord().toBigInteger().toByteArray(),
                             this.ra.getYCoord().toBigInteger().toByteArray()));
             if(Arrays.equals(entity.S, s2)) {
-                log.info("A->B 密钥确认成功");
+                TyLog.v("A->B 密钥确认成功");
             } else {
-                log.info("A->B 密钥确认失败");
+                TyLog.v("A->B 密钥确认失败");
             }
         }
     }

@@ -3,8 +3,6 @@ package com.lois.tytool.basej.string;
 import com.lois.tytool.basej.constant.FileConstants;
 import com.lois.tytool.basej.math.ConvertUtils;
 
-import net.sourceforge.pinyin4j.PinyinHelper;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -124,31 +122,6 @@ public class StringUtils {
             }
         }
         return sb.toString();
-    }
-
-    /**
-     * 将GB码转换成拼音首字母字符串
-     * 使用pinyin4j-2.5.0.jar库
-     *
-     * @param str 待转换的GB码
-     * @return 拼首字母字符串
-     */
-    public static String GB2PinyinSzmStr(String str) {
-        String convert = "";
-        for (int j = 0; j < str.length(); j++) {
-            if (j > 10) { // 最大不能超过10个汉字
-                break;
-            }
-            char word = str.charAt(j);
-            // 提取汉字的首字母
-            String[] pinyinArray = PinyinHelper.toHanyuPinyinStringArray(word);
-            if (pinyinArray != null) {
-                convert += pinyinArray[0].charAt(0);
-            } else {
-                convert += word;
-            }
-        }
-        return convert;
     }
 
     /**
@@ -493,40 +466,6 @@ public class StringUtils {
     }
 
     /**
-     * 根据输入的关键字判断某字符串是否包含该首字母
-     *
-     * @param key       关键字
-     * @param searchStr 要搜索的字符串
-     * @return true 包含 false 不包含
-     */
-    public static boolean isContainSZM(String key, String searchStr) {
-        String[] keyWordStr;
-        boolean isContain = false;
-
-        if (key == null || searchStr == null) {
-            return isContain;
-        }
-
-        String pingyin = GB2PinyinSzmStr(searchStr);
-        keyWordStr = key.split(" ");
-
-        for (int k = 0; k < keyWordStr.length; k++) {
-            if (keyWordStr[k].trim().length() == 0) { // 以防是空格
-                continue;
-            }
-
-            if (!pingyin.contains(keyWordStr[k].toUpperCase())
-                    && !pingyin.contains(keyWordStr[k])) {
-                isContain = false;
-                break;
-            } else {
-                isContain = true;
-            }
-        }
-        return isContain;
-    }
-
-    /**
      * 测试输入的字符是否为GB码
      *
      * @param ch
@@ -763,6 +702,41 @@ public class StringUtils {
         }
         return tmp.toString();
     }
+    /**
+     * 判断是否为奇数，位运算，最后一位是1则为奇数，为0是偶数
+     *
+     * @param num 传入的int数据
+     * @return 如果为奇数，返回true；如果为偶数返回false
+     */
+    public static boolean isOdd(int num) {
+        return (num & 0x1) == 1;
+    }
+
+    /**
+     * hex字符串转字节数组
+     *
+     * @param hexString 传入的数据
+     * @return 转换后的结果
+     */
+    public static byte[] hexString2ByteArray(String hexString) {
+        int len = hexString.length();
+        byte[] result;
+        if (isOdd(len)) {
+            //奇数
+            len++;
+            result = new byte[(len / 2)];
+            hexString = "0" + hexString;
+        } else {
+            //偶数
+            result = new byte[(len / 2)];
+        }
+        int j = 0;
+        for (int i = 0; i < len; i += 2) {
+            result[j] = hexString2Byte(hexString.substring(i, i + 2));
+            j++;
+        }
+        return result;
+    }
 
 	/**
 	 * 16进制字符串转换为byte[]
@@ -784,6 +758,62 @@ public class StringUtils {
 		}
 		return d;
 	}
+
+    /**
+     * 16进制字符串转byte
+     *
+     * @param hexString 传入的十六进制字符串
+     * @return 转换后的结果
+     */
+    public static byte hexString2Byte(String hexString) {
+        return (byte) Integer.parseInt(hexString, 16);
+    }
+
+    /**
+     * Byte 转 十六进制字符串
+     *
+     * @param hexByte 传入的数据
+     * @return 转换后的结果
+     */
+    public static String byte2HexString(Byte hexByte) {
+        return String.format("%02x", hexByte).toUpperCase();
+    }
+
+    /**
+     * 字节数组转hex字符串
+     *
+     * @param hexbytearray 传入的数据
+     * @return 转换后的结果
+     */
+    public static String byteArray2HexString(byte[] hexbytearray) {
+
+        return byteArray2HexString(hexbytearray, 0, hexbytearray.length);
+    }
+
+    /**
+     * 字节数组转转hex字符串
+     *
+     * @param hexbytearray 传入的数据
+     * @return 转换后的结果
+     */
+    public static String byteArray2HexString(byte[] hexbytearray, int beginIndex, int endIndex)//字节数组转转hex字符串，可选长度
+    {
+        StringBuilder strBuilder = new StringBuilder();
+        for (int i = beginIndex; i < endIndex; i++) {
+            strBuilder.append(byte2HexString(hexbytearray[i]));
+        }
+        return strBuilder.toString();
+    }
+
+    /**
+     * 16进制字符串转int
+     *
+     * @param hexString 传入的十六进制字符串
+     * @return 转换后的结果
+     */
+    public static int hexString2Int(String hexString) {
+        return Integer.parseInt(hexString, 16);
+    }
 
 	/**
 	 * byte[]转换成16进制字符串
