@@ -3,6 +3,8 @@ package com.lois.tytool.demo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.lois.tytool.TyLog;
 import com.lois.tytool.TyTool;
 import com.lois.tytool.activity.BaseSlidingAppComatActivity;
 
@@ -57,6 +59,7 @@ public class MainActivity extends BaseSlidingAppComatActivity implements View.On
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_test1:
+                TyLog.e("yyyyyyyyyyyyy");
                 break;
             case R.id.btn_test2:
                 break;
