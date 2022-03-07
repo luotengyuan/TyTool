@@ -3,19 +3,8 @@ package com.lois.tytool.demo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-
-import com.lois.mylibtest.StringUtils;
-import com.lois.mylibtest2.RandomUtils;
-import com.lois.serialport.TySerialPort;
-import com.lois.tts.AudioElement;
-import com.lois.tts.AudioLevel;
-import com.lois.tts.TtsCallback;
-import com.lois.tts.TtsStatus;
-import com.lois.tts.TyTts;
-import com.lois.tytool.TyLog;
 import com.lois.tytool.TyTool;
 import com.lois.tytool.activity.BaseSlidingAppComatActivity;
-import com.lois.webrtc.apm.WebRtcJni;
 
 /**
  * @author Administrator
