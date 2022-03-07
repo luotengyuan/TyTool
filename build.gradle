@@ -15,10 +15,12 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url 'https://jitpack.io' }
         //本地Maven仓库地址
         maven {
             url 'file://E://ASWorkSpace//MyMavenTest//repository'
         }
+
     }
 //    configurations.all {
 //        exclude group: 'org.springframework', module: 'spring-jcl'

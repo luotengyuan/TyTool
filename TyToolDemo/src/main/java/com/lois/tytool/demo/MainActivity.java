@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.lois.mylibtest.StringUtils;
+import com.lois.mylibtest2.RandomUtils;
 import com.lois.serialport.TySerialPort;
 import com.lois.tts.AudioElement;
 import com.lois.tts.AudioLevel;
@@ -67,7 +68,6 @@ public class MainActivity extends BaseSlidingAppComatActivity implements View.On
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_test1:
-                StringUtils.base64String2Long("");
                 break;
             case R.id.btn_test2:
                 break;
