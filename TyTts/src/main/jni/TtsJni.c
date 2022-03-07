@@ -207,7 +207,6 @@ static ivUInt16 ivCall TtsLogCB
 //JniInit JniDinit  因为JniTtsSpeak是另外的线程来做的
 static void JniInit(JNIEnv *env)
 {
-
     jclass classTmp =  (*env)->FindClass(env,"com/lois/tts/AudioData");
 
     m_JavaTtsClass.clazzTts = (*env)->NewGlobalRef(env,classTmp);
@@ -225,7 +224,6 @@ static void JniInit(JNIEnv *env)
 
 static void JniDinit()
 {
-
     if (NULL != m_JavaTtsClass.clazzTts){
         (*m_JavaTtsClass.env)->DeleteGlobalRef(m_JavaTtsClass.env,m_JavaTtsClass.clazzTts);
         m_JavaTtsClass.clazzTts = NULL;
@@ -240,8 +238,6 @@ static void JniDinit()
 // Free heap and ResPack
 static void TtsDInit()
 {
-
-
     if ((PLAY_STATUS_FINISH != m_TtsPlayStatus)&&(PLAY_STATUS_STOP != m_TtsPlayStatus)){
         LOGD("TtsDInit --but tts is runing--- ");
     }
@@ -696,17 +692,6 @@ jint JNICALL Java_com_lois_tts_TtsJni_JniGetVersion
     LOGD(msg);
     return man;
 }
-
-
-
-//创建TTS 实例
-//jint JNICALL Java_com_lois_tts_Tts_JniCreate
-//  (JNIEnv *env, jobject thiz)
-//{
-
-//	return TtsCreate();
-
-//}
 
 //创建TTS 实例
 jint JNICALL Java_com_lois_tts_TtsJni_JniCreate

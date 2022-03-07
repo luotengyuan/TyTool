@@ -7,6 +7,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.1'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     }
 }
 
@@ -14,6 +15,10 @@ allprojects {
     repositories {
         google()
         jcenter()
+        //本地Maven仓库地址
+        maven {
+            url 'file://E://ASWorkSpace//MyMavenTest//repository'
+        }
     }
 //    configurations.all {
 //        exclude group: 'org.springframework', module: 'spring-jcl'

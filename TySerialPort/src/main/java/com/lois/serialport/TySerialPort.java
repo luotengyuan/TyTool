@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.security.InvalidParameterException;
 
 /**
@@ -25,7 +26,7 @@ public class TySerialPort {
     private SendThread sendThread;
     private boolean openState = false;
     private byte[] loopData = new byte[]{0x30};
-    private int delay = 500;
+    private int delay = 100;
 
     /**
      * 串口参数
@@ -35,6 +36,13 @@ public class TySerialPort {
     private OnReceivedDataListener onReceivedDataListener;
     private OnStatesChangeListener onStatesChangeListener;
 
+    /**
+     * 私有构造方法
+     * @param port
+     * @param baudRate
+     * @param receivedListener
+     * @param statesChangeListener
+     */
     private TySerialPort(String port, int baudRate, OnReceivedDataListener receivedListener, OnStatesChangeListener statesChangeListener) {
         this.port = port;
         this.baudRate = baudRate;
@@ -42,6 +50,9 @@ public class TySerialPort {
         this.onStatesChangeListener = statesChangeListener;
     }
 
+    /**
+     * Builder类
+     */
     public static class Builder {
         private String port = "/dev/ttyHSL0";
         private int baudRate = 9600;
@@ -76,12 +87,38 @@ public class TySerialPort {
         }
     }
 
-    public void setSerialPortReceivedListener(OnReceivedDataListener onReceivedDataListener) {
+    /**
+     * 设置数据接收回调
+     * @param onReceivedDataListener
+     */
+    public TySerialPort setSerialPortReceivedListener(OnReceivedDataListener onReceivedDataListener) {
         this.onReceivedDataListener = onReceivedDataListener;
+        return this;
     }
 
-    public void setSatesListener(OnStatesChangeListener onStatesChangeListener) {
+    /**
+     * 清除数据接收回调
+     */
+    public TySerialPort removeSerialPortReceivedListener() {
+        this.onReceivedDataListener = null;
+        return this;
+    }
+
+    /**
+     * 设置状态监听
+     * @param onStatesChangeListener
+     */
+    public TySerialPort setSatesListener(OnStatesChangeListener onStatesChangeListener) {
         this.onStatesChangeListener = onStatesChangeListener;
+        return this;
+    }
+
+    /**
+     * 清除状态监听
+     */
+    public TySerialPort removeSatesListener() {
+        this.onStatesChangeListener = null;
+        return this;
     }
 
     /**
@@ -96,7 +133,7 @@ public class TySerialPort {
     /**
      * 串口打开方法
      */
-    public void open() {
+    public TySerialPort open() {
         try {
             baseOpen();
             Log.i(TAG, "打开串口成功！");
@@ -128,6 +165,7 @@ public class TySerialPort {
                 onStatesChangeListener.onOpen(false, "其他错误!");
             }
         }
+        return this;
     }
 
     private void baseOpen() throws SecurityException, IOException, InvalidParameterException {
@@ -164,7 +202,7 @@ public class TySerialPort {
      *
      * @param bOutArray
      */
-    private void send(byte[] bOutArray) {
+    private TySerialPort send(byte[] bOutArray) {
         try {
             if (openState) {
                 outputStream.write(bOutArray);
@@ -175,6 +213,7 @@ public class TySerialPort {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return this;
     }
 
     /**
@@ -182,9 +221,10 @@ public class TySerialPort {
      *
      * @param hexString
      */
-    public void sendHex(String hexString) {
+    public TySerialPort sendHex(String hexString) {
         byte[] bOutArray = StringUtils.hexStringToBytes(hexString);
         send(bOutArray);
+        return this;
     }
 
     /**
@@ -192,11 +232,32 @@ public class TySerialPort {
      *
      * @param txtString
      */
-    public void sendTxtString(String txtString) {
-        byte[] bOutArray = txtString.getBytes();
-        send(bOutArray);
+    public TySerialPort sendTxtString(String txtString) {
+        sendTxtString(txtString, "UTF-8");
+        return this;
     }
 
+    /**
+     * 发送文本
+     *
+     * @param txtString
+     * @param charsetName
+     */
+    public TySerialPort sendTxtString(String txtString, String charsetName) {
+        byte[] bOutArray;
+        try {
+            bOutArray = txtString.getBytes(charsetName);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return this;
+        }
+        send(bOutArray);
+        return this;
+    }
+
+    /**
+     * 读取数据线程
+     */
     private class ReadThread extends Thread {
         @Override
         public void run() {
@@ -223,6 +284,9 @@ public class TySerialPort {
         }
     }
 
+    /**
+     * 发送数据线程
+     */
     private class SendThread extends Thread {
         /**
          * 线程运行标志
@@ -267,10 +331,19 @@ public class TySerialPort {
         }
     }
 
+    /**
+     * 读取波特率
+     * @return
+     */
     public int getBaudRate() {
         return baudRate;
     }
 
+    /**
+     * 设置波特率
+     * @param iBaud
+     * @return
+     */
     public boolean setBaudRate(int iBaud) {
         if (openState) {
             return false;
@@ -280,15 +353,29 @@ public class TySerialPort {
         }
     }
 
+    /**
+     * 设置波特率
+     * @param sBaud
+     * @return
+     */
     public boolean setBaudRate(String sBaud) {
         int iBaud = Integer.parseInt(sBaud);
         return setBaudRate(iBaud);
     }
 
+    /**
+     * 获取端口
+     * @return
+     */
     public String getPort() {
         return port;
     }
 
+    /**
+     * 设置端口
+     * @param sPort
+     * @return
+     */
     public boolean setPort(String sPort) {
         if (openState) {
             return false;
@@ -298,7 +385,10 @@ public class TySerialPort {
         }
     }
 
-
+    /**
+     * 读取循环发送的数据
+     * @return
+     */
     public byte[] getLoopData() {
         return loopData;
     }
@@ -308,8 +398,9 @@ public class TySerialPort {
      *
      * @param loopData byte数据
      */
-    public void setLoopData(byte[] loopData) {
+    public TySerialPort setLoopData(byte[] loopData) {
         this.loopData = loopData;
+        return this;
     }
 
     /**
@@ -318,12 +409,13 @@ public class TySerialPort {
      * @param str         传入的字符串
      * @param isHexString 是否为16进制字符串
      */
-    public void setLoopData(String str, boolean isHexString) {
+    public TySerialPort setLoopData(String str, boolean isHexString) {
         if (isHexString) {
             this.loopData = str.getBytes();
         } else {
             this.loopData = StringUtils.hexStringToBytes(str);
         }
+        return this;
     }
 
     /**
@@ -340,26 +432,29 @@ public class TySerialPort {
      *
      * @param delay
      */
-    public void setDelay(int delay) {
+    public TySerialPort setDelay(int delay) {
         this.delay = delay;
+        return this;
     }
 
     /**
      * 开启循环发送
      */
-    public void startSend() {
+    public TySerialPort startSend() {
         if (sendThread != null) {
             sendThread.setResume();
         }
+        return this;
     }
 
     /**
      * 停止循环发送
      */
-    public void stopSend() {
+    public TySerialPort stopSend() {
         if (sendThread != null) {
             sendThread.setSuspendFlag();
         }
+        return this;
     }
 
     /**

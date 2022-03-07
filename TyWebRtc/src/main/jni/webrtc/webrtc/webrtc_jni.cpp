@@ -191,7 +191,6 @@ JNI_API(jshortArray ,WebRtcAecm_1Process,jlong ctx,jshortArray nearendNoisy,jsho
     return out;
 }
 
-
 JNI_API(jint ,WebRtcAecm_1set_1config,jlong ctx,jint cngMode,jint echoMode){
     void *handle = (void *)ctx;
     AecmConfig config ;
@@ -269,8 +268,6 @@ JNI_API(jint ,WebRtcAgc_1Process,
     return ret;
 }
 
-
-
 JNI_API(jint ,WebRtcAgc_1set_1config,jlong ctx,jint targetLevelDbfs,jint compressionGaindB,jint limiterEnable){
     void *handle = (void *)ctx;
     WebRtcAgc_config_t config = {(int16_t)targetLevelDbfs,(int16_t)compressionGaindB,(uint8_t)limiterEnable};
@@ -297,12 +294,6 @@ JNI_API(jint ,WebRtcAgc_1Init,
     void *handle = (void *)ctx;
     return WebRtcAgc_Init(handle,minLevel,maxLevel,agcMode,fs);
 }
-
-
-
-
-
-
 
 
 #ifdef __cplusplus

@@ -40,10 +40,13 @@ dependencies {
     implementation project(path: ':TyTool')
     implementation project(path: ':TyBaseJ')
     implementation project(path: ':TyPreferences')
-    implementation project(path: ':TyTts')
     annotationProcessor project(path: ':TyPreferences')
+    implementation project(path: ':TyTts')
+    implementation project(path: ':TySerialPort')
+    implementation project(path: ':TyWebRtc')
     testImplementation rootProject.ext.dependencies["junit:junit"]
     androidTestImplementation rootProject.ext.dependencies["androidx.test.ext:junit"]
     androidTestImplementation rootProject.ext.dependencies["espresso-core"]
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.lois.mylibtest:MyLibTest:1.0.0'
 }

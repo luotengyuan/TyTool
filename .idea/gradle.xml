@@ -13,10 +13,12 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/TyBaseJ" />
             <option value="$PROJECT_DIR$/TyPreferences" />
+            <option value="$PROJECT_DIR$/TySerialPort" />
             <option value="$PROJECT_DIR$/TyTool" />
             <option value="$PROJECT_DIR$/TyToolDemo" />
             <option value="$PROJECT_DIR$/TyTts" />
             <option value="$PROJECT_DIR$/TyUI" />
+            <option value="$PROJECT_DIR$/TyWebRtc" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
