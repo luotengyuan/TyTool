@@ -2,10 +2,14 @@ package com.lois.tytool;
 
 import android.util.Log;
 
+import androidx.annotation.IntDef;
+
 import com.lois.tytool.base.constant.FileConstants;
 import com.lois.tytool.base.io.LogSaveUtils;
 import com.lois.tytool.base.time.DateTimeUtils;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.Collection;
 import java.util.Map;
 
@@ -16,6 +20,13 @@ import java.util.Map;
  * @Time 11:32
  */
 public class TyLog extends com.lois.tytool.base.debug.TyLog {
+
+    /**
+     * 日志等级定义
+     */
+    @IntDef({DEFAULT_ALL, VERBOSE, DEBUG, INFO, WARN, ERROR, DEFAULT_NONE})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface LogLevel {}
 
     public static void v(String msg) {
         if (VERBOSE >= MIN_SHOW_LEVEL && LOG_SWITCH) {

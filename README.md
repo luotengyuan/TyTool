@@ -65,6 +65,7 @@ TyTool.init(this);
 |  VERSION  |  Description  |
 | :-------: | ------------- |
 | __1.0.3__ | 创建初始版本，包含基础工具集合和WebRtc、离线TTS以及串口工具库 |
+| __1.0.4__ | 增加本地Maven发布功能，新增TyTool类中开启日志和Crash接口 |
 
 # Demo介绍
 

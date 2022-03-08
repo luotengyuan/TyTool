@@ -13,4 +13,11 @@ ext {
             "androidx.test.ext:junit"   : "androidx.test.ext:junit:1.1.1",
             "espresso-core"             : "androidx.test.espresso:espresso-core:3.2.0"
     ]
+
+    publish = [
+            // 发布版本号
+            "version"          : "1.0.4",
+            // 是否本地Maven发布，发布到github上时记得关闭
+            "local"            : false
+    ]
 }

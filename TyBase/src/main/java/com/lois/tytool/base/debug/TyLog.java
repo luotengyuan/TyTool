@@ -16,7 +16,7 @@ import java.util.Map;
  * @Time 20:21
  */
 public class TyLog {
-    public static final int DEFAULT_ALL = 0;
+    public static final int DEFAULT_ALL = 1;
     public static final int VERBOSE = 2;
     public static final int DEBUG = 3;
     public static final int INFO = 4;

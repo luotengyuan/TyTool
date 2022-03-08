@@ -1,10 +1,10 @@
 package com.lois.tytool.demo;
 
-import android.app.Application;
 import android.content.Context;
 
 import com.lois.tytool.TyTool;
 import com.lois.tytool.app.BaseApplication;
+import com.lois.tytool.base.debug.TyLog;
 
 /**
  * @Description MyApplication
@@ -32,7 +32,7 @@ public class MyApp extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        TyTool.getInstance().init(this);
+        TyTool.getInstance().init(this).openCrashHelper().setLogSaveInfo(TyLog.INFO);
     }
 
     /**

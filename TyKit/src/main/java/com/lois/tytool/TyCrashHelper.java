@@ -44,14 +44,21 @@ public final class TyCrashHelper {
     private static final String INTENT_ACTION_CRASH_ACTIVITY = "com.lois.tytool.intent.action.CRASH_ERROR";
     private static final String INTENT_ACTION_BROWSER_ACTIVITY = "com.lois.tytool.intent.action.WEB_BROWSER";
 
-    //General constants
+    /**
+     * General constants
+     */
     private final static String TAG = TyCrashHelper.class.getSimpleName();
-    //128 KB - 1
+    /**
+     * 128 KB - 1
+     */
     private static final int MAX_STACK_TRACE_SIZE = 131071;
 
-    //Internal variables
+    /**
+     * Internal variables
+     */
     private static Application application;
     private static WeakReference<Activity> lastActivityCreated = new WeakReference<>(null);
+    private static MyActivityLifecycleCallbacks myActivityLifecycleCallbacks;
 
     private static Class<? extends Activity> crashActivityClass = null;
     private static Class<? extends Activity> browserActivityClass = null;
@@ -97,10 +104,12 @@ public final class TyCrashHelper {
 
             //We define a default exception handler that does what we want so it can be called from Crashlytics/ACRA
             Thread.setDefaultUncaughtExceptionHandler(new MyUncaughtExceptionHandler());
+            MyActivityLifecycleCallbacks temp = null;
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-                application.registerActivityLifecycleCallbacks(new MyActivityLifecycleCallbacks());
+                temp = new MyActivityLifecycleCallbacks();
+                application.registerActivityLifecycleCallbacks(temp);
             }
-
+            myActivityLifecycleCallbacks = temp;
             Log.i(TAG, "Crash tool has been installed.");
         } catch (Throwable t) {
             Log.e(TAG, "An unknown error occurred while installing crash tool, it may not have been properly initialized. Please report this as a bug if needed.", t);

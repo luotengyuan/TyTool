@@ -1,6 +1,11 @@
-plugins {
-    id 'java-library'
-    id 'com.github.dcendents.android-maven'
+if (rootProject.ext.publish.local) {
+    apply plugin: 'java-library'
+    // 发布本地Maven版本
+    apply from: rootProject.file('localMavenPublish.gradle')
+} else {
+    apply plugin: 'java-library'
+    // 发布在线JitPack的Maven版本
+    apply plugin: 'com.github.dcendents.android-maven'
 }
 
 java {

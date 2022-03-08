@@ -22,7 +22,6 @@ public class MainActivity extends BaseSlidingAppComatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        TyTool.getInstance().init(this);
         btn_test1 = findViewById(R.id.btn_test1);
         btn_test1.setOnClickListener(this);
         btn_test2 = findViewById(R.id.btn_test2);
@@ -61,10 +60,8 @@ public class MainActivity extends BaseSlidingAppComatActivity implements View.On
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_test1:
-                TyLog.e("yyyyyyyyyyyyy");
                 break;
             case R.id.btn_test2:
-                TyToast.showLong(StringUtils.binaryString2hexString("111101000100000111000"));
                 break;
             case R.id.btn_test3:
                 break;
