@@ -2,7 +2,7 @@ package com.lois.serialport;
 
 import android.util.Log;
 
-import com.lois.tytool.basej.string.StringUtils;
+import com.lois.tytool.base.string.StringUtils;
 
 import java.io.File;
 import java.io.IOException;

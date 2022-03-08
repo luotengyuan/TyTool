@@ -1,8 +1,6 @@
 package com.lois.tytool;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
 
 import androidx.annotation.NonNull;
 
@@ -29,7 +27,7 @@ public class TyTool {
     public TyTool init(@NonNull Context context) {
         this.mContext = context.getApplicationContext();
         this.mAppDir = SystemUtils.getAppFilePath(mContext)+ "/";
-        TyLog.setLogSaveInfo(this.mAppDir, com.lois.tytool.basej.debug.TyLog.DEFAULT_ALL);
+        TyLog.setLogSaveInfo(this.mAppDir, com.lois.tytool.base.debug.TyLog.DEFAULT_ALL);
 //        TyCrashHelper.install(mContext);
         return this;
     }

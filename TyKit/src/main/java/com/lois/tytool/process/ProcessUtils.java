@@ -16,7 +16,7 @@ import java.util.List;
  * @Date 2022/2/22
  * @Time 20:50
  */
-public class ProcessUtils extends com.lois.tytool.basej.process.ProcessUtils {
+public class ProcessUtils extends com.lois.tytool.base.process.ProcessUtils {
 
     /**
      * 换行符

@@ -17,11 +17,11 @@ import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 
-import com.lois.tytool.basej.gis.CoordType;
-import com.lois.tytool.basej.gis.CoorsTransform;
-import com.lois.tytool.basej.gis.LonLat;
-import com.lois.tytool.basej.io.LogSaveUtils;
-import com.lois.tytool.basej.time.DateTimeUtils;
+import com.lois.tytool.base.gis.CoordType;
+import com.lois.tytool.base.gis.CoorsTransform;
+import com.lois.tytool.base.gis.LonLat;
+import com.lois.tytool.base.io.LogSaveUtils;
+import com.lois.tytool.base.time.DateTimeUtils;
 import com.lois.tytool.io.FileUtils;
 
 import java.io.IOException;

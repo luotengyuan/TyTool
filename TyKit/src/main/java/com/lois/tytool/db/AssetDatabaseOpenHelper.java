@@ -19,7 +19,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 
-import com.lois.tytool.basej.io.FileUtils;
+import com.lois.tytool.base.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;

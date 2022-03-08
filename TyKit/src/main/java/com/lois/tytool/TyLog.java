@@ -2,9 +2,9 @@ package com.lois.tytool;
 
 import android.util.Log;
 
-import com.lois.tytool.basej.constant.FileConstants;
-import com.lois.tytool.basej.io.LogSaveUtils;
-import com.lois.tytool.basej.time.DateTimeUtils;
+import com.lois.tytool.base.constant.FileConstants;
+import com.lois.tytool.base.io.LogSaveUtils;
+import com.lois.tytool.base.time.DateTimeUtils;
 
 import java.util.Collection;
 import java.util.Map;
@@ -15,7 +15,7 @@ import java.util.Map;
  * @Date 2017-09-22
  * @Time 11:32
  */
-public class TyLog extends com.lois.tytool.basej.debug.TyLog {
+public class TyLog extends com.lois.tytool.base.debug.TyLog {
 
     public static void v(String msg) {
         if (VERBOSE >= MIN_SHOW_LEVEL && LOG_SWITCH) {

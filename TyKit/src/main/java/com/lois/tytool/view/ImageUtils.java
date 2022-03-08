@@ -42,8 +42,8 @@ import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.lois.tytool.TyTool;
 import com.lois.tytool.app.ResourceUtils;
-import com.lois.tytool.basej.io.IOUtils;
-import com.lois.tytool.basej.string.StringUtils;
+import com.lois.tytool.base.io.IOUtils;
+import com.lois.tytool.base.string.StringUtils;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -55,9 +55,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import static com.lois.tytool.basej.io.FileUtils.createFileByDeleteOldFile;
-import static com.lois.tytool.basej.io.FileUtils.getFileByPath;
-import static com.lois.tytool.basej.io.FileUtils.getFileExtension;
+import static com.lois.tytool.base.io.FileUtils.createFileByDeleteOldFile;
+import static com.lois.tytool.base.io.FileUtils.getFileByPath;
+import static com.lois.tytool.base.io.FileUtils.getFileExtension;
 
 /**
  * 用来处理Drawable、Bitmap的工具类

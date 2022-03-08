@@ -2,8 +2,6 @@ package com.lois.tytool.app;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -18,7 +16,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.RemoteException;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -26,20 +23,14 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.lois.tytool.TyTool;
-import com.lois.tytool.basej.io.FileUtils;
-import com.lois.tytool.basej.secert.hash.HashUtils;
-import com.lois.tytool.basej.string.StringUtils;
+import com.lois.tytool.base.io.FileUtils;
+import com.lois.tytool.base.string.StringUtils;
 import com.lois.tytool.process.ProcessUtils;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -48,7 +39,6 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import javax.security.auth.x500.X500Principal;
 

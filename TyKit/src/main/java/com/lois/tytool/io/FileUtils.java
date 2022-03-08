@@ -26,7 +26,7 @@ import java.util.List;
  * @Author Lois
  * @Date 2022/1/21 16:09
  */
-public class FileUtils extends com.lois.tytool.basej.io.FileUtils {
+public class FileUtils extends com.lois.tytool.base.io.FileUtils {
     private static final String TAG = FileUtils.class.getSimpleName();
 
     /**

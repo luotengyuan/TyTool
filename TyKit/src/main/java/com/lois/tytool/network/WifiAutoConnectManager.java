@@ -11,7 +11,7 @@ import android.util.Log;
 import androidx.core.app.ActivityCompat;
 
 import com.lois.tytool.TyTool;
-import com.lois.tytool.basej.string.StringUtils;
+import com.lois.tytool.base.string.StringUtils;
 
 import java.util.List;
 

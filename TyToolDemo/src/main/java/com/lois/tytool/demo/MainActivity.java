@@ -5,8 +5,10 @@ import android.view.View;
 import android.widget.Button;
 
 import com.lois.tytool.TyLog;
+import com.lois.tytool.TyToast;
 import com.lois.tytool.TyTool;
 import com.lois.tytool.activity.BaseSlidingAppComatActivity;
+import com.lois.tytool.base.string.StringUtils;
 
 /**
  * @author Administrator
@@ -62,6 +64,7 @@ public class MainActivity extends BaseSlidingAppComatActivity implements View.On
                 TyLog.e("yyyyyyyyyyyyy");
                 break;
             case R.id.btn_test2:
+                TyToast.showLong(StringUtils.binaryString2hexString("111101000100000111000"));
                 break;
             case R.id.btn_test3:
                 break;

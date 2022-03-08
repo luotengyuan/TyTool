@@ -8,7 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.lois.tytool.basej.secert.Md5Utils;
+import com.lois.tytool.base.secert.Md5Utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
