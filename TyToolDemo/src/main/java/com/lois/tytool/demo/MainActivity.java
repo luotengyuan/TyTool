@@ -9,6 +9,8 @@ import com.lois.tytool.TyToast;
 import com.lois.tytool.TyTool;
 import com.lois.tytool.activity.BaseSlidingAppComatActivity;
 import com.lois.tytool.base.string.StringUtils;
+import com.lois.tytool.serialport.TySerialPort;
+import com.lois.tytool.tts.TyTts;
 
 /**
  * @author Administrator

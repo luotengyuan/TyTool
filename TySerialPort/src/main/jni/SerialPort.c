@@ -57,7 +57,7 @@ static speed_t getBaudrate(jint baudrate)
  * Method:    open
  * Signature: (Ljava/lang/String;II)Ljava/io/FileDescriptor;
  */
-JNIEXPORT jobject JNICALL Java_com_lois_serialport_SerialPort_open
+JNIEXPORT jobject JNICALL Java_com_lois_tytool_serialport_SerialPort_open
   (JNIEnv *env, jclass thiz, jstring path, jint baudrate, jint flags)
 {
         int fd;
@@ -128,7 +128,7 @@ JNIEXPORT jobject JNICALL Java_com_lois_serialport_SerialPort_open
         return mFileDescriptor;
 }
 
-JNIEXPORT jint JNICALL Java_com_lois_serialport_SerialPort_read
+JNIEXPORT jint JNICALL Java_com_lois_tytool_serialport_SerialPort_read
   (JNIEnv *env, jobject thiz, jint fd, jbyteArray jbuf, jint buflen)
 {
     int len;
@@ -142,7 +142,7 @@ JNIEXPORT jint JNICALL Java_com_lois_serialport_SerialPort_read
     return len;
 }
 
-JNIEXPORT jint JNICALL Java_com_lois_serialport_SerialPort_getFd
+JNIEXPORT jint JNICALL Java_com_lois_tytool_serialport_SerialPort_getFd
   (JNIEnv *env, jobject thiz)
 {
     jclass SerialPortClass = (*env)->GetObjectClass(env, thiz);
@@ -162,7 +162,7 @@ JNIEXPORT jint JNICALL Java_com_lois_serialport_SerialPort_getFd
  * Method:    close
  * Signature: ()V
  */
-JNIEXPORT void JNICALL Java_com_lois_serialport_SerialPort_close
+JNIEXPORT void JNICALL Java_com_lois_tytool_serialport_SerialPort_close
   (JNIEnv *env, jobject thiz)
 {
         jclass SerialPortClass = (*env)->GetObjectClass(env, thiz);

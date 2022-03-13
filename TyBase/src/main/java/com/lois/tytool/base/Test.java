@@ -1,6 +1,14 @@
 package com.lois.tytool.base;
 
+import com.lois.tytool.base.debug.TyLog;
+import com.lois.tytool.base.network.http.OkHttpUtils;
+import com.lois.tytool.base.string.Pinyin4jUtils;
+import com.lois.tytool.base.time.DateTimeUtils;
+
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Description 测试类
@@ -36,6 +44,15 @@ public class Test {
 //        System.out.println("Test: " + MathUtils.add("342", "566"));
 
 //        System.out.println("Test: " + OkHttpUtils.postJson("http://tas.8000.cn:9000/update/newMapVersion.do", "{\"datas\":[{\"code\":\"350200\",\"versionName\":\"2021302\"},{\"code\":\"000000\",\"versionName\":\"2021303\"},{\"code\":\"350203\",\"versionName\":\"2018401\"},{\"code\":\"350627\",\"versionName\":\"2018401\"}],\"iccid\":\"89860462041970612588\",\"indexStru\":\"1\",\"lat\":24487176,\"lon\":118182404,\"mapStru\":\"2\",\"pt\":\"map_update2_req\"}"));
+//
+//        Map<String, String> map = new HashMap<>();
+//        map.put("osname", "Android");
+//        map.put("version", "2.3.7");
+//        map.put("usrName", "18205919375");
+//        map.put("type", "1");
+//        map.put("timestamp", "1646877545285");
+//        map.put("sign", "2e774778d486e986424ce50539c7d839");
+//        TyLog.e(OkHttpUtils.postForm("https://youche.shiqiaokache.com/auct/vehbrand/initList.do", map));
 
 //        System.out.println("Test: " + StringUtils.GB2PinyinSzmStr("你好，世界！"));
 
@@ -88,7 +105,9 @@ public class Test {
 
 //        System.out.println(Pinyin4jUtils.getQuanPin("你好，我还是Lois！", Pinyin4jUtils.Type.LOWERCASE, " ", false));
 //        System.out.println(Pinyin4jUtils.getPinYinHeadChar("你好，我还是Lois！"));
-//        TyLog.e(Pinyin4jUtils.getPinYinMultiple("你好，我还是Lois！", true));
+        TyLog.e(Pinyin4jUtils.getPinYinMultiple("你好，我还是Lois！", true));
+
+//        TyLog.e(DateTimeUtils.translateDifTime(18989764));
 
         return;
     }

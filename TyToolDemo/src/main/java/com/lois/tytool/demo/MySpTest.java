@@ -1,11 +1,11 @@
 package com.lois.tytool.demo;
 
-import com.lois.sp.annotation.BooleanEntity;
-import com.lois.sp.annotation.FloatEntity;
-import com.lois.sp.annotation.IntEntity;
-import com.lois.sp.annotation.LongEntity;
-import com.lois.sp.annotation.PreferencesClass;
-import com.lois.sp.annotation.StringEntity;
+import com.lois.tytool.sharedpreferences.annotation.BooleanEntity;
+import com.lois.tytool.sharedpreferences.annotation.FloatEntity;
+import com.lois.tytool.sharedpreferences.annotation.IntEntity;
+import com.lois.tytool.sharedpreferences.annotation.LongEntity;
+import com.lois.tytool.sharedpreferences.annotation.PreferencesClass;
+import com.lois.tytool.sharedpreferences.annotation.StringEntity;
 
 /**
  * description:.

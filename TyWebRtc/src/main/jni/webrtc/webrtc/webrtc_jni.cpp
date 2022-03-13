@@ -37,15 +37,12 @@ private:
     task onDestructed;
 };
 
-
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#define JNI_API(retType, funName, ...) extern "C"  JNIEXPORT retType Java_com_lois_webrtc_apm_WebRtcJni_##funName(JNIEnv* env, jclass cls,__VA_ARGS__)
-#define JNI_API1(retType, funName) extern "C"  JNIEXPORT retType Java_com_lois_webrtc_apm_WebRtcJni_##funName(JNIEnv* env, jclass cls)
-
-
+#define JNI_API(retType, funName, ...) extern "C"  JNIEXPORT retType Java_com_lois_tytool_webrtc_apm_WebRtcJni_##funName(JNIEnv* env, jclass cls,__VA_ARGS__)
+#define JNI_API1(retType, funName) extern "C"  JNIEXPORT retType Java_com_lois_tytool_webrtc_apm_WebRtcJni_##funName(JNIEnv* env, jclass cls)
 
 JNI_API1(jlong,WebRtcVad_1Create){
     VadInst *handle = nullptr;

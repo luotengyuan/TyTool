@@ -169,7 +169,7 @@ public class TyLog {
     public static void v(String tag, String msg) {
         if (VERBOSE >= MIN_SHOW_LEVEL && LOG_SWITCH) {
             String log = String.format("%s  %s/%s  %s\r\n", DateTimeUtils.getDateTime(), "V", tag, msg);
-            System.out.println(log);
+            System.out.print(log);
             if (VERBOSE >= MIN_SAVE_LEVEL) {
                 // 保存日志到文件
                 LogSaveUtils.saveLog(LOG_SAVE_PATH + "logcat_" + DateTimeUtils.getDate() + ".txt", log);
@@ -329,7 +329,7 @@ public class TyLog {
     public static void e(String tag, String msg) {
         if (ERROR >= MIN_SHOW_LEVEL && LOG_SWITCH) {
             String log = String.format("%s  %s/%s  %s\r\n", DateTimeUtils.getDateTime(), "E", tag, msg);
-            System.err.println(log);
+            System.err.print(log);
             if (ERROR >= MIN_SAVE_LEVEL) {
                 // 保存日志到文件
                 LogSaveUtils.saveLog(LOG_SAVE_PATH + "logcat_" + DateTimeUtils.getDate() + ".txt", log);

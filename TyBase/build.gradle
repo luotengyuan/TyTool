@@ -14,15 +14,15 @@ java {
 }
 
 dependencies {
-    implementation  group: 'com.belerweb', name: 'pinyin4j', version: '2.5.0' // 拼音
-    implementation  group: 'commons-io', name: 'commons-io', version: '2.4'
-    implementation  group: 'commons-codec', name: 'commons-codec', version: '1.11'
-    implementation  group: 'commons-net', name: 'commons-net', version: '3.6'
-    implementation  group: 'org.apache.commons', name: 'commons-lang3', version: '3.8'
-    implementation  group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.62' // SM2加密
-    implementation  'com.google.code.gson:gson:2.8.6' // Json
-    implementation  'com.jcraft:jsch:0.1.54' // SFTP
-    implementation  'com.squareup.okhttp3:okhttp:3.14.9' // OkHttp
-    implementation  'com.google.zxing:core:3.3.0' // 二维码
-    implementation  'com.google.zxing:javase:3.3.0' // 二维码
+    api group: 'com.belerweb', name: 'pinyin4j', version: '2.5.0' // 拼音
+    api group: 'commons-io', name: 'commons-io', version: '2.4'
+    api group: 'commons-codec', name: 'commons-codec', version: '1.11'
+    api group: 'commons-net', name: 'commons-net', version: '3.6'
+    api group: 'org.apache.commons', name: 'commons-lang3', version: '3.8'
+    api group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.62' // SM2加密
+    api 'com.jcraft:jsch:0.1.54' // SFTP
+    api 'com.google.zxing:core:3.3.0' // 二维码
+    api 'com.google.zxing:javase:3.3.0' // 二维码
+    api 'com.squareup.okhttp3:okhttp:3.14.9' // OkHttp
+    api 'com.google.code.gson:gson:2.8.6' // Json
 }

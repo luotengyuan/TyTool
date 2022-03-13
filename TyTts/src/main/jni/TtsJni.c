@@ -207,7 +207,7 @@ static ivUInt16 ivCall TtsLogCB
 //JniInit JniDinit  因为JniTtsSpeak是另外的线程来做的
 static void JniInit(JNIEnv *env)
 {
-    jclass classTmp =  (*env)->FindClass(env,"com/lois/tts/AudioData");
+    jclass classTmp =  (*env)->FindClass(env,"com/lois/tytool/tts/AudioData");
 
     m_JavaTtsClass.clazzTts = (*env)->NewGlobalRef(env,classTmp);
     m_JavaTtsClass.env = env;
@@ -524,7 +524,7 @@ static int TtsCreate(char *filename)
 /*
 * 修改默认语调
 */
-jint JNICALL Java_com_lois_tts_Tts_JniSetDefPitch
+jint JNICALL Java_com_lois_tytool_tts_Tts_JniSetDefPitch
         (JNIEnv *env, jobject thiz, jint v)
 {
     m_stDefParam.pitch = v;
@@ -533,7 +533,7 @@ jint JNICALL Java_com_lois_tts_Tts_JniSetDefPitch
 }
 
 //修改当前语调
-jint JNICALL Java_com_lois_tts_Tts_JniSetCurPitch
+jint JNICALL Java_com_lois_tytool_tts_Tts_JniSetCurPitch
         (JNIEnv *env, jobject thiz, jint v)
 {
     m_stCurParam.pitch = v;
@@ -542,7 +542,7 @@ jint JNICALL Java_com_lois_tts_Tts_JniSetCurPitch
 }
 
 //取默认pitch
-jint JNICALL Java_com_lois_tts_Tts_JniGetPitch
+jint JNICALL Java_com_lois_tytool_tts_Tts_JniGetPitch
         (JNIEnv *env, jobject thiz)
 {
     return (jint)m_stDefParam.pitch;
@@ -551,7 +551,7 @@ jint JNICALL Java_com_lois_tts_Tts_JniGetPitch
 /**
 * 修改speed
 */
-jint JNICALL Java_com_lois_tts_Tts_JniSetDefSpeed
+jint JNICALL Java_com_lois_tytool_tts_Tts_JniSetDefSpeed
         (JNIEnv *env, jobject thiz, jint v)
 {
     m_stDefParam.speed = v;
@@ -560,7 +560,7 @@ jint JNICALL Java_com_lois_tts_Tts_JniSetDefSpeed
 }
 
 //修改当前速度
-jint JNICALL Java_com_lois_tts_Tts_JniSetCurSpeed
+jint JNICALL Java_com_lois_tytool_tts_Tts_JniSetCurSpeed
         (JNIEnv *env, jobject thiz,jint v)
 {
     m_stCurParam.speed = v;
@@ -569,7 +569,7 @@ jint JNICALL Java_com_lois_tts_Tts_JniSetCurSpeed
 }
 
 //取默认速度
-jint JNICALL Java_com_lois_tts_Tts_JniGetSpeed
+jint JNICALL Java_com_lois_tytool_tts_Tts_JniGetSpeed
         (JNIEnv *env, jobject thiz)
 {
     return (jint)m_stDefParam.speed;
@@ -578,7 +578,7 @@ jint JNICALL Java_com_lois_tts_Tts_JniGetSpeed
 /**
 * 修改 effect
 */
-jint JNICALL Java_com_lois_tts_Tts_JniSetDefVolume
+jint JNICALL Java_com_lois_tytool_tts_Tts_JniSetDefVolume
         (JNIEnv *env, jobject thiz, jint v)
 {
     m_stDefParam.volume= v;
@@ -587,7 +587,7 @@ jint JNICALL Java_com_lois_tts_Tts_JniSetDefVolume
 }
 
 //修改当前音量
-jint JNICALL Java_com_lois_tts_Tts_JniSetCurVolume
+jint JNICALL Java_com_lois_tytool_tts_Tts_JniSetCurVolume
         (JNIEnv *env, jobject thiz,jint v)
 {
     m_stCurParam.volume= v;
@@ -596,7 +596,7 @@ jint JNICALL Java_com_lois_tts_Tts_JniSetCurVolume
 }
 
 //取默认音量
-jint JNICALL Java_com_lois_tts_Tts_JniGetVolume
+jint JNICALL Java_com_lois_tytool_tts_Tts_JniGetVolume
         (JNIEnv *env, jobject thiz)
 {
     return (jint)m_stDefParam.volume;
@@ -606,7 +606,7 @@ jint JNICALL Java_com_lois_tts_Tts_JniGetVolume
 * 修改Role
 */
 
-//jint JNICALL Java_com_lois_tts_Tts_JniSetDefRole
+//jint JNICALL Java_com_lois_tytool_tts_Tts_JniSetDefRole
 //	(JNIEnv *env, jobject thiz, jint v)
 //{
 //要增加对Role的判断
@@ -616,7 +616,7 @@ jint JNICALL Java_com_lois_tts_Tts_JniGetVolume
 //	return ivTTS_ERR_OK;
 //}
 
-//jint JNICALL Java_com_lois_tts_Tts_JniSetCurRole
+//jint JNICALL Java_com_lois_tytool_tts_Tts_JniSetCurRole
 //	(JNIEnv *env, jobject thiz,jint v)
 //{
 //要增加对Role的判断
@@ -626,7 +626,7 @@ jint JNICALL Java_com_lois_tts_Tts_JniGetVolume
 //	return ivTTS_ERR_OK;
 //}
 
-//jint JNICALL Java_com_lois_tts_Tts_JniGetRole
+//jint JNICALL Java_com_lois_tytool_tts_Tts_JniGetRole
 //	(JNIEnv *env, jobject thiz)
 //{
 //	return (jint) m_stDefParam.en_role;
@@ -636,7 +636,7 @@ jint JNICALL Java_com_lois_tts_Tts_JniGetVolume
 * 修改语言类型
 * 同时也会修改对应的Role
 */
-//jint JNICALL Java_com_lois_tts_Tts_JniSetDefLang
+//jint JNICALL Java_com_lois_tytool_tts_Tts_JniSetDefLang
 //	(JNIEnv *env, jobject thiz, jint v)
 //{
 //增加Language 的支持判断
@@ -651,7 +651,7 @@ jint JNICALL Java_com_lois_tts_Tts_JniGetVolume
 //	return ivTTS_ERR_OK;
 //}
 
-//jint  JNICALL Java_com_lois_tts_Tts_JniSetCurLang
+//jint  JNICALL Java_com_lois_tytool_tts_Tts_JniSetCurLang
 //	(JNIEnv *env, jobject thiz, jint v)
 //{
 //增加Language 的支持判断
@@ -665,7 +665,7 @@ jint JNICALL Java_com_lois_tts_Tts_JniGetVolume
 //...
 //	return ivTTS_ERR_OK;
 //}
-//jint JNICALL Java_com_lois_tts_Tts_JniGetLanguage
+//jint JNICALL Java_com_lois_tytool_tts_Tts_JniGetLanguage
 //	(JNIEnv *env, jobject thiz)
 //{
 //	return (jint)m_stDefParam.language ;
@@ -676,7 +676,7 @@ jint JNICALL Java_com_lois_tts_Tts_JniGetVolume
 * 注意函数的大小写问题
 * C 里习惯以大写开头,Java 以小写开头
 */
-jint JNICALL Java_com_lois_tts_TtsJni_JniGetVersion
+jint JNICALL Java_com_lois_tytool_tts_TtsJni_JniGetVersion
         (JNIEnv *env, jobject thiz)
 {
     jint man = 0;
@@ -694,7 +694,7 @@ jint JNICALL Java_com_lois_tts_TtsJni_JniGetVersion
 }
 
 //创建TTS 实例
-jint JNICALL Java_com_lois_tts_TtsJni_JniCreate
+jint JNICALL Java_com_lois_tytool_tts_TtsJni_JniCreate
         (JNIEnv *env, jobject thiz,jstring resFilename)
 {
     jint ret = 0;
@@ -706,7 +706,7 @@ jint JNICALL Java_com_lois_tts_TtsJni_JniCreate
     return ret;
 }
 
-jint JNICALL Java_com_lois_tts_TtsJni_JniStop
+jint JNICALL Java_com_lois_tytool_tts_TtsJni_JniStop
         (JNIEnv *env, jobject thiz)
 {
     b_StopAudioStatus = ivFalse;
@@ -720,20 +720,20 @@ jint JNICALL Java_com_lois_tts_TtsJni_JniStop
     return 1;
 }
 
-jint JNICALL Java_com_lois_tts_TtsJni_JniIsPlaying
+jint JNICALL Java_com_lois_tytool_tts_TtsJni_JniIsPlaying
         (JNIEnv *env, jobject thiz)
 {
     return	m_TtsPlayStatus;
 }
 
-jboolean JNICALL Java_com_lois_tts_TtsJni_JniIsCreated
+jboolean JNICALL Java_com_lois_tytool_tts_TtsJni_JniIsCreated
         (JNIEnv *env, jobject thiz)
 {
     return	b_CreateStatus;
 }
 
 // Speak Text
-jint JNICALL Java_com_lois_tts_TtsJni_JniSpeak
+jint JNICALL Java_com_lois_tytool_tts_TtsJni_JniSpeak
         (JNIEnv *env, jobject thiz,jstring text)
 {
 
@@ -816,7 +816,7 @@ jint JNICALL Java_com_lois_tts_TtsJni_JniSpeak
 
 
 }
-jint JNICALL Java_com_lois_tts_TtsJni_JniDestory
+jint JNICALL Java_com_lois_tytool_tts_TtsJni_JniDestory
         (JNIEnv *env, jobject thiz)
 {
     m_lastErrId = 0;
@@ -824,7 +824,7 @@ jint JNICALL Java_com_lois_tts_TtsJni_JniDestory
     return m_lastErrId;
 }
 
-jint JNICALL Java_com_lois_tts_TtsJni_JniSetParam
+jint JNICALL Java_com_lois_tytool_tts_TtsJni_JniSetParam
         (JNIEnv *env, jobject thiz,jint paramId,jint value)
 {
     m_lastErrId = ivTTS_SetParam(m_hTTS, (ivUInt32)paramId , (ivUInt32)value);
@@ -832,7 +832,7 @@ jint JNICALL Java_com_lois_tts_TtsJni_JniSetParam
     return m_lastErrId;
 }
 
-jint JNICALL Java_com_lois_tts_TtsJni_JniGetParam
+jint JNICALL Java_com_lois_tytool_tts_TtsJni_JniGetParam
         (JNIEnv *env, jobject thiz,jint paramId)
 {
     unsigned int param = 0;
@@ -844,14 +844,14 @@ jint JNICALL Java_com_lois_tts_TtsJni_JniGetParam
 #if 0
 
 
-#define gClassName "com/lois/tts/TtsService/TtsJni"
+#define gClassName "com/lois/tytool/tts/TtsService/TtsJni"
 #define gMethodNum  3
 
 static JNINativeMethod gMethods[gMethodNum] = {
 /* name, signature, funcPtr */
-{ "JNICALL Java_com_lois_tts_TtsJni_GetVersion", "(Ljava/lang/String;I)V", JNICALL Java_com_lois_tts_TtsJni_prepareData },
-{ "JNICALL Java_com_lois_tts_TtsJni_ContrlSyn", "(I)I", JNICALL Java_com_lois_tts_TtsJni_ContrlSyn },
-{ "JNICALL Java_com_lois_tts_TtsJni_ContrlInit", "()V", JNICALL Java_com_lois_tts_TtsJni_ContrlInit },};
+{ "JNICALL Java_com_lois_tytool_tts_TtsJni_GetVersion", "(Ljava/lang/String;I)V", JNICALL Java_com_lois_tytool_tts_TtsJni_prepareData },
+{ "JNICALL Java_com_lois_tytool_tts_TtsJni_ContrlSyn", "(I)I", JNICALL Java_com_lois_tytool_tts_TtsJni_ContrlSyn },
+{ "JNICALL Java_com_lois_tytool_tts_TtsJni_ContrlInit", "()V", JNICALL Java_com_lois_tytool_tts_TtsJni_ContrlInit },};
 
 jint JNI_OnLoad(JavaVM* vm, void* reserved)
 {

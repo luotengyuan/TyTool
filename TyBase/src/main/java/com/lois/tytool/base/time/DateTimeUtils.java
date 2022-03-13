@@ -895,6 +895,54 @@ public class DateTimeUtils {
     }
 
     /**
+     * 转换时间差为 多少毫秒，多少秒，多少分钟，多少小时，多少天等字符串
+     * @param difTime 时间差，单位：毫秒
+     * @return 时间差字符串
+     */
+    public static String translateDifTime(long difTime) {
+        int day = -1;
+        int hour = -1;
+        int min = -1;
+        int sec = -1;
+        int msec = -1;
+        if (difTime >= DAY) {
+            day = (int) (difTime / DAY);
+            difTime -= day * DAY;
+        }
+        if (difTime >= HOUR) {
+            hour = (int) (difTime / HOUR);
+            difTime -= hour * HOUR;
+        }
+        if (difTime >= MINUTE) {
+            min = (int) (difTime / MINUTE);
+            difTime -= min * MINUTE;
+        }
+        if (difTime >= SECOND) {
+            sec = (int) (difTime / SECOND);
+            difTime -= sec * SECOND;
+        }
+        msec = (int) (difTime);
+
+        StringBuffer sb = new StringBuffer();
+        if (day != -1) {
+            sb.append(day + "天");
+        }
+        if (hour != -1) {
+            sb.append(hour + "小时");
+        }
+        if (min != -1) {
+            sb.append(min + "分钟");
+        }
+        if (sec != -1) {
+            sb.append(sec + "秒");
+        }
+        if (msec != -1) {
+            sb.append(msec + "毫秒");
+        }
+        return sb.toString();
+    }
+
+    /**
      * 转换日期 将日期转为今天, 昨天, 前天, XXXX-XX-XX, ...
      *
      * @param time 时间
