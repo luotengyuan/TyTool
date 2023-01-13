@@ -14,7 +14,7 @@ import android.os.Bundle;
  * @Date 2022/2/22
  * @Time 20:50
  */
-public abstract class BaseSlidingAppComatActivity extends BaseAppComatActivity {
+public abstract class BaseSlidingAppComatActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -46,6 +46,7 @@ dependencies {
     implementation project(path: ':TyTts')
     implementation project(path: ':TySerialPort')
     implementation project(path: ':TyWebRtc')
+//    implementation project(path: ':library')
     testImplementation rootProject.ext.dependencies["junit:junit"]
     androidTestImplementation rootProject.ext.dependencies["androidx.test.ext:junit"]
     androidTestImplementation rootProject.ext.dependencies["espresso-core"]

@@ -1,8 +1,8 @@
 ext {
     android = [
-            compileSdkVersion: 30,
+            compileSdkVersion: 29,
             buildToolsVersion: "30.0.0",
-            minSdkVersion    : 16,
+            minSdkVersion    : 21,
             targetSdkVersion : 29
     ]
 
@@ -16,7 +16,7 @@ ext {
 
     publish = [
             // 发布版本号
-            "version"          : "1.0.5",
+            "version"          : "1.0.6",
             // 是否本地Maven发布，发布到github上时记得关闭
             "local"            : false
     ]

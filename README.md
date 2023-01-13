@@ -2,7 +2,7 @@
 
 [![luotengyuan.com](https://img.shields.io/badge/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2-Tamsiree-brightgreen.svg)](https://luotengyuan.com/)  [![TyTool](https://jitpack.io/v/luotengyuan/TyTool.svg)](https://jitpack.io/#luotengyuan/TyTool) [![](https://img.shields.io/badge/platform-android-brightgreen.svg)](https://developer.android.com/index.html)  [![API](https://img.shields.io/badge/API-16%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=21)  [![Gradle-5.6.4](https://img.shields.io/badge/Gradle-6.5-brightgreen.svg)](https://img.shields.io/badge/Gradle-6.5-brightgreen.svg)
 
-![image](./ty_tool_framework.png)
+<img src="https://lois-pictures.oss-cn-hangzhou.aliyuncs.com/picture/ty_tool_framework.png" alt="image" style="zoom: 33%;" />
 
 >	TyTool是在开发Android过程中积累的一些工具集合，主要是为了自己在开发过程中避免一些重复工作，希望也能帮助到同样困扰的朋友。
 
@@ -45,7 +45,7 @@ allprojects {
 ```gradle
 dependencies {
   //基础工具库
-  implementation 'com.github.luotengyuan.TyTool:TyKit:1.0.3'
+  implementation 'com.github.luotengyuan.TyTool:TyKit:1.0.6'
 }
 ```
 
@@ -64,8 +64,10 @@ TyTool.init(this);
 
 |  VERSION  |  Description  |
 | :-------: | ------------- |
-| __1.0.3__ | 创建初始版本，包含基础工具集合和WebRtc、离线TTS以及串口工具库 |
-| __1.0.4__ | 增加本地Maven发布功能，新增TyTool类中开启日志和Crash接口 |
+| __1.0.3__ | 创建初始版本，包含基础工具集合和WebRtc、离线TTS以及串口工具库。 |
+| __1.0.4__ | 增加本地Maven发布功能，新增TyTool类中开启日志和Crash接口。 |
+| __1.0.5__ | 调整依赖结构和包名结构。 |
+| __1.0.6__ | 增加TyExif库，包含Exif插入音频功能。 |
 
 # Demo介绍
 

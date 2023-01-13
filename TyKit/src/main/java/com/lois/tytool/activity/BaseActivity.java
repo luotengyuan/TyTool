@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,6 +14,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.lois.tytool.R;
+import com.lois.tytool.TyToast;
+
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * 抽象BaseAppComatActivity类
@@ -19,32 +25,178 @@ import com.lois.tytool.R;
  * @Date 2022/2/22
  * @Time 20:50
  */
-public abstract class BaseAppComatActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
     protected Context mContext;
+    private Unbinder unbinder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext=this;
+        unbinder = ButterKnife.bind(this);
+        if (isNeedLayoutRes()) {
+            setContentView(initContentView());
+        }
+        initData(savedInstanceState);
+        initView();
+        ActivityManager.getAppManager().addActivity(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
+        ActivityManager.getAppManager().finishActivity(this);
     }
 
     /**
-     * 初始化Activity
+     * 是否需要布局文件
+     * @return 是否需要布局
      */
-    protected abstract void initActivity();
+    protected boolean isNeedLayoutRes() {
+        return true;
+    }
 
     /**
-     * 初始化控件
+     * 设置布局资源
+     * @return 布局资源
+     */
+    protected abstract int initContentView();
+
+    /**
+     * 初始化Activity数据
+     * @param savedInstanceState 实例状态
+     */
+    protected abstract void initData(Bundle savedInstanceState);
+
+    /**
+     * 初始化UI控件
      */
     protected abstract void initView();
 
     /**
-     * 进入指定的Activity
-     * @param cls
+     * 获取当前 Activity 对象
      */
-    protected void startActivity(Class<?> cls){
-        Intent intent=new Intent(mContext,cls);
+    public BaseActivity getActivity() {
+        return this;
+    }
+
+    /**
+     * 和 setContentView 对应的方法
+     */
+    public ViewGroup getContentView() {
+        return findViewById(Window.ID_ANDROID_CONTENT);
+    }
+
+    private void overridePendingTransition() {
+        overridePendingTransition(R.anim.enter_anim, R.anim.exit_anim_left);
+    }
+
+    /**
+     * 页面跳转
+     *
+     * @param clz 要跳转的Activity
+     */
+    public void startActivity(Class<?> clz) {
+        if (clz == null) {
+            return;
+        }
+        startActivity(new Intent(this, clz));
+        overridePendingTransition();
+    }
+
+    /**
+     * 页面跳转
+     *
+     * @param clz    要跳转的Activity
+     * @param intent intent
+     */
+    public void startActivity(Class<?> clz, Intent intent) {
+        if (clz == null || intent == null) {
+            return;
+        }
+        intent.setClass(this, clz);
         startActivity(intent);
+        overridePendingTransition();
+    }
+
+    /**
+     * 携带数据的页面跳转
+     *
+     * @param clz    要跳转的Activity
+     * @param bundle 需要传递的数据
+     */
+    public void startActivity(Class<?> clz, Bundle bundle) {
+        if (clz == null) {
+            return;
+        }
+        Intent intent = new Intent();
+        intent.setClass(this, clz);
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
+        startActivity(intent);
+        overridePendingTransition();
+    }
+
+    /**
+     * 页面跳转并要求获取返回结果
+     *
+     * @param clz         要跳转的Activity
+     * @param requestCode requestCode
+     */
+    public void startActivityForResult(Class<?> clz, int requestCode) {
+        if (clz == null) {
+            return;
+        }
+        Intent intent = new Intent();
+        intent.setClass(this, clz);
+        startActivityForResult(intent, requestCode);
+        overridePendingTransition();
+    }
+
+    /**
+     * 页面跳转并要求获取返回结果
+     *
+     * @param clz       要跳转的Activity
+     * @param intent    intent
+     * @param requestCode requestCode
+     */
+    public void startActivityForResult(Class<?> clz, Intent intent, int requestCode) {
+        if (clz == null || intent == null) {
+            return;
+        }
+        intent.setClass(this, clz);
+        startActivityForResult(intent, requestCode);
+        overridePendingTransition();
+    }
+
+    /**
+     * 页面跳转并要求获取返回结果
+     *
+     * @param clz         要跳转的Activity
+     * @param bundle      bundle数据
+     * @param requestCode requestCode
+     */
+    public void startActivityForResult(Class<?> clz, Bundle bundle, int requestCode) {
+        if (clz == null) {
+            return;
+        }
+        Intent intent = new Intent();
+        intent.setClass(this, clz);
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
+        startActivityForResult(intent, requestCode);
+        overridePendingTransition();
+    }
+
+    /**
+     * 吐司
+     * @param text 文本
+     */
+    protected void showToast(String text) {
+        TyToast.showShort(text);
     }
 
     /**

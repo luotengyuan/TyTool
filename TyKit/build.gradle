@@ -40,5 +40,11 @@ dependencies {
     testImplementation rootProject.ext.dependencies["junit:junit"]
     androidTestImplementation rootProject.ext.dependencies["androidx.test.ext:junit"]
     androidTestImplementation rootProject.ext.dependencies["espresso-core"]
-    api project(path: ':TyBase')
+    if (rootProject.ext.publish.local) {
+        compileOnly project(path: ':TyBase')
+    } else {
+        api project(path: ':TyBase')
+    }
+    api 'com.jakewharton:butterknife:10.1.0'
+    api "com.jakewharton:butterknife-compiler:10.1.0"
 }

@@ -1,6 +1,5 @@
 package com.lois.tytool.webrtc.apm;
 
-
 public class Ticker {
     public void resetTime(){
         mStartTime = System.currentTimeMillis();

@@ -32,7 +32,10 @@ public class MyApp extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        TyTool.getInstance().init(this).openCrashHelper().setLogSaveInfo(TyLog.INFO);
+        TyTool.getInstance()
+                .init(this)
+//                .openCrashHelper()
+                .setLogSaveInfo(TyLog.INFO);
     }
 
     /**

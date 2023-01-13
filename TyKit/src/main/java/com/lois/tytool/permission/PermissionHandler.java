@@ -10,9 +10,15 @@ import android.content.pm.PermissionInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+
+import com.lois.tytool.TyLog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Description 权限管理处理类
@@ -21,6 +27,7 @@ import androidx.core.app.ActivityCompat;
  * @Time 20:22
  */
 public class PermissionHandler implements PermissionFragment.Callback {
+    private static final String TAG = PermissionHandler.class.getSimpleName();
 
     private Activity mActivity;
     private String[] mPermissions;
@@ -51,7 +58,26 @@ public class PermissionHandler implements PermissionFragment.Callback {
      * @return 返回一个 PermissionHandler 实例用于进行后续操作
      */
     public PermissionHandler permissions(String... permissions) {
-        this.mPermissions = permissions;
+        if (permissions != null && permissions.length > 0) {
+            this.mPermissions = permissions;
+        }
+        return this;
+    }
+
+    /**
+     * 设置所需要申请的权限
+     *
+     * @param permissions 需要申请的权限列表
+     * @return 返回一个 PermissionHandler 实例用于进行后续操作
+     */
+    public PermissionHandler permissions(List<String> permissions) {
+        if (permissions != null && permissions.size() > 0) {
+            String[] temp = new String[permissions.size()];
+            for (int i = 0; i < permissions.size(); i++) {
+                temp[i] = permissions.get(i);
+            }
+            this.mPermissions = temp;
+        }
         return this;
     }
 
@@ -80,35 +106,65 @@ public class PermissionHandler implements PermissionFragment.Callback {
      * @param requestCode 请求号
      */
     public void request(int requestCode) {
+        if (mPermissions == null || mPermissions.length <= 0) {
+            Log.e(TAG, "Please set permission first.");
+            return;
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!requestPermissions(mPermissions, requestCode)) {
                 return;
             }
         }
         //通知权限监听回调
-        publish(requestCode, true, mPermissions);
+        publish(requestCode, true, null);
     }
 
     private boolean requestPermissions(String[] permissions, int requestCode) {
-        for (String permission : permissions) {
-            if (ActivityCompat.checkSelfPermission(mActivity, permission)
-                    == PackageManager.PERMISSION_DENIED) {
-                if (mPermissionFragment != null) {
-                    //注册回调
-                    mPermissionFragment.registerCallback(requestCode, this);
-                    mPermissionFragment.postRequestPermissions(permissions, requestCode);
-                } else {
-                    ActivityCompat.requestPermissions(mActivity, permissions, requestCode);
-                }
-                return false;
+        String[] deniedPermissions = TyPermissions.getDeniedPermissions(permissions);
+        if (deniedPermissions.length > 0) {
+            if (mPermissionFragment != null) {
+                //注册回调
+                mPermissionFragment.registerCallback(requestCode, this);
+                mPermissionFragment.postRequestPermissions(deniedPermissions, requestCode);
+            } else {
+                ActivityCompat.requestPermissions(mActivity, deniedPermissions, requestCode);
             }
+            return false;
         }
         return true;
     }
 
-    private void publish(int requestCode, boolean allGranted, String[] permissions) {
+    private void publish(int requestCode, boolean allGranted, List<String> deniedPermissions) {
+        List<String> grantedList = new ArrayList<>();
+        List<String> deniedList = new ArrayList<>();
+        List<String> dontAskAgainList = new ArrayList<>();
+        for (String permission : mPermissions) {
+            boolean isDenied = false;
+            for (int i = 0; deniedPermissions != null && i < deniedPermissions.size(); i++) {
+                if (permission.equals(deniedPermissions.get(i))) {
+                    isDenied = true;
+                    if (!ActivityCompat.shouldShowRequestPermissionRationale(mActivity, permission)) {
+                        dontAskAgainList.add(permission);
+                    }
+                    break;
+                }
+            }
+            if (isDenied) {
+                deniedList.add(permission);
+            } else {
+                grantedList.add(permission);
+            }
+        }
+        if (dontAskAgainList.size() > 0 && mIsShowDialog) {
+            showDialogTips(dontAskAgainList, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
+        }
         if (mPermissionCallback != null) {
-            mPermissionCallback.onResult(requestCode, allGranted, permissions, permissions);
+            mPermissionCallback.onResult(requestCode, allGranted, grantedList, deniedList, dontAskAgainList);
         }
     }
 
@@ -138,47 +194,37 @@ public class PermissionHandler implements PermissionFragment.Callback {
      * @param grantResults 授权结果
      */
     public void onRequestPermissionsResult(final int requestCode, @NonNull final String[] permissions, @NonNull final int[] grantResults) {
-        int i = 0;
-        for (int grant : grantResults) {
+        List<String> deniedList = new ArrayList<>();
+        for (int i = 0; i < grantResults.length; i++) {
+            int grant = grantResults[i];
+            if (i >= permissions.length) {
+                break;
+            }
             String permission = permissions[i];
             if (grant == PackageManager.PERMISSION_DENIED) {
-                if (mIsShowDialog) {
-                    showDialogTips(permission, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            publish(requestCode, false, permissions);
-                        }
-                    });
-                } else {
-                    publish(requestCode, false, permissions);
-                }
-                return;
+                deniedList.add(permission);
             }
         }
-        publish(requestCode, true, permissions);
+        if (deniedList.size() <= 0) {
+            publish(requestCode, true, null);
+        } else {
+            publish(requestCode, false, deniedList);
+        }
     }
 
     /**
      * 当用户拒绝权限时调用前往设置界面的提醒窗口
      *
-     * @param permission 被拒绝的权限
+     * @param permissions 被拒绝的权限
      * @param onDenied 取消点击事件
      */
-    private void showDialogTips(String permission, DialogInterface.OnClickListener onDenied) {
-        PackageManager packageManager = mActivity.getPackageManager();
-        String permissionName;
-        try {
-            PermissionInfo permissionInfo = packageManager.getPermissionInfo(permission, 0);
-            assert permissionInfo.group != null;
-            PermissionGroupInfo permissionGroupInfo =
-                    packageManager.getPermissionGroupInfo(permissionInfo.group, 0);
-            permissionName = (String) permissionGroupInfo.loadLabel(packageManager);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            permissionName = "";
+    private void showDialogTips(List<String> permissions, DialogInterface.OnClickListener onDenied) {
+        StringBuilder permissionName = new StringBuilder();
+        for (String permission : permissions) {
+            permissionName.append("\n[").append(permission).append("]");
         }
         AlertDialog alertDialog = new AlertDialog.Builder(mActivity).setTitle("权限被禁用").setMessage(
-                String.format("您拒绝了相关权限，无法正常使用本功能。请前往设置中启用 %s 权限", permissionName
+                String.format("您拒绝了相关权限，无法正常使用本功能。\n请前往设置中启用以下权限：%s", permissionName.toString()
                 )).setCancelable(false).
                 setNegativeButton("返回", onDenied).
                 setPositiveButton("去设置", new DialogInterface.OnClickListener() {

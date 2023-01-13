@@ -83,7 +83,7 @@ public class ActivityManager {
     }
 
     /**
-     * 结束指定类名的Activity
+     * 判断指定类名的Activity是否存在
      */
     public boolean existsActivity(Class<?> cls) {
         for (Activity activity : activityStack) {
@@ -112,7 +112,7 @@ public class ActivityManager {
      *
      * @param cls 指定的Activuty
      */
-    public void finishNotSpecifiedActivity(Class<?> cls) {
+    public void finishBeyondThatActivity(Class<?> cls) {
         for (int i = 0, size = activityStack.size(); i < size; i++) {
             if (null != activityStack.get(i) && activityStack.get(i).getClass() != cls) {
                 activityStack.get(i).finish();
@@ -134,7 +134,7 @@ public class ActivityManager {
         }
     }
 
-    public int activietyCounts() {
+    public int activityCounts() {
         if (null != activityStack) {
             return activityStack.size();
         }

@@ -135,7 +135,7 @@ public class TyGps implements LocationListener, GpsStatus.NmeaListener{
             mCurLocation = location;
         }
         mLocationManager.requestLocationUpdates(provider, mMinTime, mMinDistance, this);
-        mLocationManager.addNmeaListener(this);
+//        mLocationManager.addNmeaListener(this);
         mIsStart = true;
         return true;
     }
@@ -147,7 +147,7 @@ public class TyGps implements LocationListener, GpsStatus.NmeaListener{
         removeAllListener();
         if (mLocationManager != null) {
             mLocationManager.removeUpdates(this);
-            mLocationManager.removeNmeaListener(this);
+//            mLocationManager.removeNmeaListener(this);
             mLocationManager = null;
         }
         mIsStart = false;

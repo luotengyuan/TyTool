@@ -2,8 +2,6 @@ package com.lois.tytool.serialport;
 
 import android.util.Log;
 
-import com.lois.tytool.base.string.StringUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -222,7 +220,7 @@ public class TySerialPort {
      * @param hexString
      */
     public TySerialPort sendHex(String hexString) {
-        byte[] bOutArray = StringUtils.hexStringToBytes(hexString);
+        byte[] bOutArray = hexStringToBytes(hexString);
         send(bOutArray);
         return this;
     }
@@ -253,6 +251,31 @@ public class TySerialPort {
         }
         send(bOutArray);
         return this;
+    }
+
+    /**
+     * 16进制字符串转换为byte[]
+     *
+     * @param hexString
+     * @return
+     */
+    public static byte[] hexStringToBytes(String hexString) {
+        if (hexString == null || hexString.equals("")) {
+            return null;
+        }
+        hexString = hexString.toUpperCase().replace(" ", "");
+        int length = hexString.length() / 2;
+        char[] hexChars = hexString.toCharArray();
+        byte[] d = new byte[length];
+        for (int i = 0; i < length; i++) {
+            int pos = i * 2;
+            d[i] = (byte) (charToByte(hexChars[pos]) << 4 | charToByte(hexChars[pos + 1]));
+        }
+        return d;
+    }
+
+    private static byte charToByte(char c) {
+        return (byte) "0123456789ABCDEF".indexOf(c);
     }
 
     /**
@@ -413,7 +436,7 @@ public class TySerialPort {
         if (isHexString) {
             this.loopData = str.getBytes();
         } else {
-            this.loopData = StringUtils.hexStringToBytes(str);
+            this.loopData = hexStringToBytes(str);
         }
         return this;
     }
