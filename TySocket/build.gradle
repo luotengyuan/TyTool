@@ -1,0 +1,30 @@
+if (rootProject.ext.publish.local) {
+    apply plugin: 'com.android.library'
+    // 发布本地Maven版本
+    apply from: rootProject.file('localMavenPublish.gradle')
+} else {
+    apply plugin: 'com.android.library'
+    // 发布在线JitPack的Maven版本
+    apply plugin: 'com.github.dcendents.android-maven'
+}
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+}
