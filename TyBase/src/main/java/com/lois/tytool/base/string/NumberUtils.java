@@ -1,6 +1,5 @@
-package com.lois.tytool.base.util;
+package com.lois.tytool.base.string;
 
-import com.lois.tytool.base.string.StringUtils;
 import org.apache.commons.lang3.math.IEEE754rUtils;
 
 import java.lang.reflect.Array;

@@ -2,7 +2,7 @@ package com.lois.tytool.base.secert.sm;
 
 import com.lois.tytool.base.debug.TyLog;
 import com.lois.tytool.base.secert.Base64Utils;
-import com.lois.tytool.base.util.HexUtils;
+import com.lois.tytool.base.string.HexUtils;
 import com.lois.tytool.base.io.StreamUtils;
 import com.lois.tytool.base.string.StringUtils;
 

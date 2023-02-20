@@ -1,4 +1,4 @@
-package com.lois.tytool.base.util;
+package com.lois.tytool.base.string;
 
 import com.lois.tytool.base.string.StringUtils;
 

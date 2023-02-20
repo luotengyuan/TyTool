@@ -942,7 +942,7 @@ public class StringUtils {
     public static String encodeUrl(String str){
         String s = null;
         try {
-            s = URLEncoder.encode(str, com.lois.tytool.base.constant.FileConstants.ENCODE_UTF8);
+            s = URLEncoder.encode(str, com.lois.tytool.base.constant.FileConstants.ENCODE_UTF_8);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -958,7 +958,7 @@ public class StringUtils {
     public static String decodeUrl(String str){
         String s = null;
         try {
-            s = URLDecoder.decode(str, FileConstants.ENCODE_UTF8);
+            s = URLDecoder.decode(str, FileConstants.ENCODE_UTF_8);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

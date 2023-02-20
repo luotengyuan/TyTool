@@ -52,7 +52,7 @@ public class QrCodeUtils {
             Map<EncodeHintType, Object> hints = new HashMap<>(3);
             // 指定纠错等级
             hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
-            hints.put(EncodeHintType.CHARACTER_SET, FileConstants.ENCODE_UTF8);
+            hints.put(EncodeHintType.CHARACTER_SET, FileConstants.ENCODE_UTF_8);
             //设置白边
             hints.put(EncodeHintType.MARGIN, 1);
             // 生成矩阵
@@ -162,7 +162,7 @@ public class QrCodeUtils {
             Binarizer binarizer = new HybridBinarizer(source);
             BinaryBitmap binaryBitmap = new BinaryBitmap(binarizer);
             Map<DecodeHintType, Object> hints = new HashMap<>();
-            hints.put(DecodeHintType.CHARACTER_SET, FileConstants.ENCODE_UTF8);
+            hints.put(DecodeHintType.CHARACTER_SET, FileConstants.ENCODE_UTF_8);
             // 对图像进行解码
             Result result = new MultiFormatReader().decode(binaryBitmap, hints);
             return result.getText();

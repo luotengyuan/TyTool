@@ -5,7 +5,7 @@ import com.lois.tytool.base.debug.TyLog;
 import com.lois.tytool.base.exception.EncryptionAndDecryptionException;
 import com.lois.tytool.base.secert.enumeration.Padding;
 import com.lois.tytool.base.string.StringUtils;
-import com.lois.tytool.base.util.HexUtils;
+import com.lois.tytool.base.string.HexUtils;
 
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;

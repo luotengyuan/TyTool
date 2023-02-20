@@ -66,7 +66,8 @@ public class FileConstants {
     /**
      * UTF-8编码
      */
-    public static final String ENCODE_UTF8 = "UTF-8";
+    public static final String ENCODE_UTF_8 = "UTF-8";
+    public static final String ENCODE_GBK = "GBK";
 
 
     /**********************************************文件后缀************************************************/

@@ -1,6 +1,6 @@
 package com.lois.tytool.base.secert.sm;
 
-import com.lois.tytool.base.util.HexUtils;
+import com.lois.tytool.base.string.HexUtils;
 
 import org.bouncycastle.math.ec.ECPoint;
 

@@ -115,8 +115,9 @@ public class StreamUtils {
      * @return Byte数组
      */
     public static final byte[] input2byte(InputStream inStream) {
-        if (inStream == null)
+        if (inStream == null) {
             return null;
+        }
         ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
         byte[] buff = new byte[100];
         int rc = 0;

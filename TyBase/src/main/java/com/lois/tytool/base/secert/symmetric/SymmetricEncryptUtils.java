@@ -5,7 +5,7 @@ import com.lois.tytool.base.secert.BaseSecret;
 import com.lois.tytool.base.secert.enumeration.AlgorithmMode;
 import com.lois.tytool.base.secert.enumeration.Padding;
 import com.lois.tytool.base.string.StringUtils;
-import com.lois.tytool.base.util.HexUtils;
+import com.lois.tytool.base.string.HexUtils;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
@@ -77,7 +77,7 @@ public final class SymmetricEncryptUtils {
             }
             des = des(binary, algorithmType, key, Cipher.ENCRYPT_MODE, algorithmMode, padding, iv);
         }
-        return com.lois.tytool.base.util.HexUtils.bytesToHexString(des);
+        return HexUtils.bytesToHexString(des);
     }
 
     /**

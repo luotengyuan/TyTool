@@ -1,4 +1,4 @@
-package com.lois.tytool.base.util;
+package com.lois.tytool.base.string;
 
 import com.lois.tytool.base.string.StringUtils;
 
@@ -120,7 +120,6 @@ public class RegexUtils {
         return testRegex(regex, value);
     }
 
-
     public static boolean matcherEmail(String value) {
 //      String regex = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)" +
 //                "+[a-zA-Z]{2,}$";
@@ -147,7 +146,6 @@ public class RegexUtils {
         String regex = "^[京津晋冀蒙辽吉黑沪苏浙皖闽赣鲁豫鄂湘粤桂琼川贵云藏陕甘青宁新渝]?[A-Z][A-HJ-NP-Z0-9学挂港澳练]{5}$";
         return testRegex(regex, value.toLowerCase());
     }
-
 
     public static boolean matcherIdentityCard(String value) {
 //        String regex = "^(^[1-9]\\d{7}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}$)|" +
@@ -300,9 +298,8 @@ public class RegexUtils {
      * @return 是否是Email
      */
     public static boolean isEmail(String email) {
-        Pattern pattern = Pattern.compile("^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$");
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
+        String expr = "^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$";
+        return email.matches(expr);
     }
 
     /**
