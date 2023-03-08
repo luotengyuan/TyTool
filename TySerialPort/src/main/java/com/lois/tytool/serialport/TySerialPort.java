@@ -2,6 +2,7 @@ package com.lois.tytool.serialport;
 
 import android.util.Log;
 
+import com.lois.tytool.base.stream.coder.IMessageReceiver;
 import com.lois.tytool.base.string.StringUtils;
 
 import java.io.File;
@@ -33,20 +34,20 @@ public class TySerialPort {
      */
     private String port;
     private int baudRate;
-    private OnReceivedDataListener onReceivedDataListener;
+    private IMessageReceiver mMessageReceiver = null;
     private OnStatesChangeListener onStatesChangeListener;
 
     /**
      * 私有构造方法
      * @param port
      * @param baudRate
-     * @param receivedListener
+     * @param messageReceiver
      * @param statesChangeListener
      */
-    private TySerialPort(String port, int baudRate, OnReceivedDataListener receivedListener, OnStatesChangeListener statesChangeListener) {
+    private TySerialPort(String port, int baudRate, IMessageReceiver messageReceiver, OnStatesChangeListener statesChangeListener) {
         this.port = port;
         this.baudRate = baudRate;
-        this.onReceivedDataListener = receivedListener;
+        this.mMessageReceiver = messageReceiver;
         this.onStatesChangeListener = statesChangeListener;
     }
 
@@ -56,7 +57,7 @@ public class TySerialPort {
     public static class Builder {
         private String port = "/dev/ttyHSL0";
         private int baudRate = 9600;
-        private OnReceivedDataListener onReceivedDataListener = null;
+        private IMessageReceiver mMessageReceiver = null;
         private OnStatesChangeListener onStatesChangeListener = null;
 
         public Builder setPort(String port) {
@@ -69,8 +70,8 @@ public class TySerialPort {
             return this;
         }
 
-        public Builder setListener(OnReceivedDataListener onReceivedDataListener) {
-            this.onReceivedDataListener = onReceivedDataListener;
+        public Builder setReceiver(IMessageReceiver messageReceiver) {
+            this.mMessageReceiver = messageReceiver;
             return this;
         }
 
@@ -83,24 +84,24 @@ public class TySerialPort {
             if (port == null || port.isEmpty()) {
                 throw new Exception("port is null or empty!");
             }
-            return new TySerialPort(port, baudRate, onReceivedDataListener, onStatesChangeListener);
+            return new TySerialPort(port, baudRate, mMessageReceiver, onStatesChangeListener);
         }
     }
 
     /**
      * 设置数据接收回调
-     * @param onReceivedDataListener
+     * @param messageReceiver
      */
-    public TySerialPort setSerialPortReceivedListener(OnReceivedDataListener onReceivedDataListener) {
-        this.onReceivedDataListener = onReceivedDataListener;
+    public TySerialPort setMessageReceiver(IMessageReceiver messageReceiver) {
+        this.mMessageReceiver = messageReceiver;
         return this;
     }
 
     /**
      * 清除数据接收回调
      */
-    public TySerialPort removeSerialPortReceivedListener() {
-        this.onReceivedDataListener = null;
+    public TySerialPort removeMessageReceiver() {
+        this.mMessageReceiver = null;
         return this;
     }
 
@@ -276,8 +277,8 @@ public class TySerialPort {
                     if (size > 0) {
                         byte[] temp = new byte[size];
                         System.arraycopy(buffer, 0, temp, 0, size);
-                        if (onReceivedDataListener != null) {
-                            onReceivedDataListener.onReceivedData(temp, size);
+                        if (mMessageReceiver != null) {
+                            mMessageReceiver.onReceiveData(TySerialPort.this, mMessageReceiver.decode(temp));
                         }
                     }
                 } catch (Throwable e) {

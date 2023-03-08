@@ -10,5 +10,4 @@ include ':TyToolDemo'
 include ':TyPreferences'
 include ':TyExif'
 //include 'library'
-include 'TySocket'
 rootProject.name = "TyTool"
