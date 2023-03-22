@@ -38,8 +38,9 @@ public class DBUtils {
     public static synchronized DBUtils getDB(Context context) {
         if (sDBUtis == null) {
             synchronized (DBUtils.class) {
-                if (sDBUtis == null)
+                if (sDBUtis == null) {
                     sDBUtis = new DBUtils(context);
+                }
             }
         }
         return sDBUtis;

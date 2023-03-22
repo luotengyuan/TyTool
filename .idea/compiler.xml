@@ -17,6 +17,14 @@
         <module name="TyTool.TyPreferences" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="1.8" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="TyTool.TyExif" target="11" />
+      <module name="TyTool.TyKit" target="11" />
+      <module name="TyTool.TySerialPort" target="11" />
+      <module name="TyTool.TyToolDemo" target="11" />
+      <module name="TyTool.TyTts" target="11" />
+      <module name="TyTool.TyUI" target="11" />
+      <module name="TyTool.TyWebRtc" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>

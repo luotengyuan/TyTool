@@ -3,7 +3,7 @@ package com.lois.tytool.base.secert.symmetric;
 import com.lois.tytool.base.secert.enumeration.AlgorithmMode;
 import com.lois.tytool.base.secert.enumeration.Padding;
 import com.lois.tytool.base.string.StringUtils;
-import com.lois.tytool.base.util.HexUtils;
+import com.lois.tytool.base.string.HexUtils;
 
 import org.apache.commons.codec.CharEncoding;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -59,7 +59,7 @@ public class AesUtils {
         }
         byte[] bytes = com.lois.tytool.base.string.StringUtils.stringToBytes(plainText, charsetName);
         byte[] result = SymmetricEncryptUtils.aes(algorithmMode, padding, iv, Cipher.ENCRYPT_MODE, password, bytes);
-        return com.lois.tytool.base.util.HexUtils.bytesToHexString(result);
+        return HexUtils.bytesToHexString(result);
     }
 
     /**

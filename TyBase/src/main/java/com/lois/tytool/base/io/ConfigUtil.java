@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 配置文件读取工具
+ * INI格式配置文件读取工具
  *
  * @author Luo.T.Y
  * @time 2017-10-11

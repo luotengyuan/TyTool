@@ -25,7 +25,7 @@ public class CoorsTransform {
      * @param lat
      * @return
      */
-    public static com.lois.tytool.base.gis.LonLat GPS84ToBD09(double lon, double lat) {
+    public static LonLat GPS84ToBD09(double lon, double lat) {
         if (outOfChina(lon, lat)) {
             return null;
         }
@@ -43,10 +43,10 @@ public class CoorsTransform {
         double theta = Math.atan2(mgLat, mgLon) + 0.000003 * Math.cos(mgLon * Math.PI);
         double longitude = z * Math.cos(theta) + 0.0065;
         double latitude = z * Math.sin(theta) + 0.006;
-        return new com.lois.tytool.base.gis.LonLat(longitude, latitude, com.lois.tytool.base.gis.CoordType.BD09);
+        return new LonLat(longitude, latitude, CoordType.BD09);
     }
 
-    public static com.lois.tytool.base.gis.LonLat GPS84ToGCJ02(double lon, double lat) {
+    public static LonLat GPS84ToGCJ02(double lon, double lat) {
         if (outOfChina(lon, lat)) {
             return null;
         }
@@ -60,37 +60,37 @@ public class CoorsTransform {
         dLon = (dLon * 180.0) / (a / sqrtMagic * Math.cos(radLat) * pi);
         double mgLat = lat + dLat;
         double mgLon = lon + dLon;
-        return new com.lois.tytool.base.gis.LonLat(mgLon, mgLat, com.lois.tytool.base.gis.CoordType.GCJ02);
+        return new LonLat(mgLon, mgLat, CoordType.GCJ02);
     }
 
-    public static com.lois.tytool.base.gis.LonLat GCJ02ToGPS84(double lon, double lat) {
-        com.lois.tytool.base.gis.LonLat gps = transform(lon, lat);
+    public static LonLat GCJ02ToGPS84(double lon, double lat) {
+        LonLat gps = transform(lon, lat);
         double lontitude = lon * 2 - gps.getLongitude();
         double latitude = lat * 2 - gps.getLatitude();
-        return new com.lois.tytool.base.gis.LonLat(lontitude, latitude, com.lois.tytool.base.gis.CoordType.WGS84);
+        return new LonLat(lontitude, latitude, CoordType.WGS84);
     }
 
-    public static com.lois.tytool.base.gis.LonLat GCJ02ToBD09(double gg_lon, double gg_lat) {
+    public static LonLat GCJ02ToBD09(double gg_lon, double gg_lat) {
         double x = gg_lon, y = gg_lat;
         double z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * pi);
         double theta = Math.atan2(y, x) + 0.000003 * Math.cos(x * pi);
         double bd_lon = z * Math.cos(theta) + 0.0065;
         double bd_lat = z * Math.sin(theta) + 0.006;
-        return new com.lois.tytool.base.gis.LonLat(bd_lon, bd_lat, com.lois.tytool.base.gis.CoordType.BD09);
+        return new LonLat(bd_lon, bd_lat, CoordType.BD09);
     }
 
-    public static com.lois.tytool.base.gis.LonLat BD09ToGCJ02(double bd_lon, double bd_lat) {
+    public static LonLat BD09ToGCJ02(double bd_lon, double bd_lat) {
         double x = bd_lon - 0.0065, y = bd_lat - 0.006;
         double z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * pi);
         double theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * pi);
         double gg_lon = z * Math.cos(theta);
         double gg_lat = z * Math.sin(theta);
-        return new com.lois.tytool.base.gis.LonLat(gg_lon, gg_lat, com.lois.tytool.base.gis.CoordType.GCJ02);
+        return new LonLat(gg_lon, gg_lat, CoordType.GCJ02);
     }
 
-    public static com.lois.tytool.base.gis.LonLat BD09ToGPS84(double bd_lon, double bd_lat) {
-        com.lois.tytool.base.gis.LonLat gcj02 = BD09ToGCJ02(bd_lon, bd_lat);
-        com.lois.tytool.base.gis.LonLat map84 = GCJ02ToGPS84(gcj02.getLongitude(), gcj02.getLatitude());
+    public static LonLat BD09ToGPS84(double bd_lon, double bd_lat) {
+        LonLat gcj02 = BD09ToGCJ02(bd_lon, bd_lat);
+        LonLat map84 = GCJ02ToGPS84(gcj02.getLongitude(), gcj02.getLatitude());
         return map84;
     }
 
@@ -101,9 +101,9 @@ public class CoorsTransform {
         return lat < 0.8293 || lat > 55.8271;
     }
 
-    private static com.lois.tytool.base.gis.LonLat transform(double lon, double lat) {
+    private static LonLat transform(double lon, double lat) {
         if (outOfChina(lon, lat)) {
-            return new com.lois.tytool.base.gis.LonLat(lon, lat);
+            return new LonLat(lon, lat);
         }
         double dLat = transformLat(lon - 105.0, lat - 35.0);
         double dLon = transformLon(lon - 105.0, lat - 35.0);

@@ -33,10 +33,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext=this;
-        unbinder = ButterKnife.bind(this);
         if (isNeedLayoutRes()) {
             setContentView(initContentView());
         }
+        unbinder = ButterKnife.bind(this);
         initData(savedInstanceState);
         initView();
         ActivityManager.getAppManager().addActivity(this);
