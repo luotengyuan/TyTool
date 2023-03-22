@@ -18,6 +18,6 @@ ext {
             // 发布版本号
             "version"          : "1.0.7",
             // 是否本地Maven发布，发布到github上时记得关闭
-            "local"            : true
+            "local"            : false
     ]
 }
