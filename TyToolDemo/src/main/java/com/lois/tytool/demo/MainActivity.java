@@ -46,26 +46,26 @@ import butterknife.OnClick;
 public class MainActivity extends BaseSlidingAppComatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    @BindView(R.id.btn_test1)
-    Button btn_test1;
-    @BindView(R.id.btn_test2)
-    Button btn_test2;
-    @BindView(R.id.btn_test3)
-    Button btn_test3;
-    @BindView(R.id.btn_test4)
-    Button btn_test4;
-    @BindView(R.id.btn_test5)
-    Button btn_test5;
-    @BindView(R.id.btn_test6)
-    Button btn_test6;
-    @BindView(R.id.btn_test7)
-    Button btn_test7;
-    @BindView(R.id.btn_test8)
-    Button btn_test8;
-    @BindView(R.id.btn_test9)
-    Button btn_test9;
-    @BindView(R.id.btn_test10)
-    Button btn_test10;
+//    @BindView(R.id.btn_test1)
+//    Button btn_test1;
+//    @BindView(R.id.btn_test2)
+//    Button btn_test2;
+//    @BindView(R.id.btn_test3)
+//    Button btn_test3;
+//    @BindView(R.id.btn_test4)
+//    Button btn_test4;
+//    @BindView(R.id.btn_test5)
+//    Button btn_test5;
+//    @BindView(R.id.btn_test6)
+//    Button btn_test6;
+//    @BindView(R.id.btn_test7)
+//    Button btn_test7;
+//    @BindView(R.id.btn_test8)
+//    Button btn_test8;
+//    @BindView(R.id.btn_test9)
+//    Button btn_test9;
+//    @BindView(R.id.btn_test10)
+//    Button btn_test10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,34 +110,34 @@ public class MainActivity extends BaseSlidingAppComatActivity {
 //        invalidateOptionsMenu();
     }
 
-    @OnClick({R.id.btn_test1, R.id.btn_test2, R.id.btn_test3, R.id.btn_test4, R.id.btn_test5
-            , R.id.btn_test6, R.id.btn_test7, R.id.btn_test8, R.id.btn_test9, R.id.btn_test10})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btn_test1:
-                break;
-            case R.id.btn_test2:
-                break;
-            case R.id.btn_test3:
-                break;
-            case R.id.btn_test4:
-                break;
-            case R.id.btn_test5:
-                break;
-            case R.id.btn_test6:
-                break;
-            case R.id.btn_test7:
-                break;
-            case R.id.btn_test8:
-                break;
-            case R.id.btn_test9:
-                break;
-            case R.id.btn_test10:
-                break;
-            default:
-                break;
-        }
-    }
+//    @OnClick({R.id.btn_test1, R.id.btn_test2, R.id.btn_test3, R.id.btn_test4, R.id.btn_test5
+//            , R.id.btn_test6, R.id.btn_test7, R.id.btn_test8, R.id.btn_test9, R.id.btn_test10})
+//    public void onClick(View view) {
+//        switch (view.getId()) {
+//            case R.id.btn_test1:
+//                break;
+//            case R.id.btn_test2:
+//                break;
+//            case R.id.btn_test3:
+//                break;
+//            case R.id.btn_test4:
+//                break;
+//            case R.id.btn_test5:
+//                break;
+//            case R.id.btn_test6:
+//                break;
+//            case R.id.btn_test7:
+//                break;
+//            case R.id.btn_test8:
+//                break;
+//            case R.id.btn_test9:
+//                break;
+//            case R.id.btn_test10:
+//                break;
+//            default:
+//                break;
+//        }
+//    }
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {

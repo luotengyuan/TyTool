@@ -1,10 +1,51 @@
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply from: "../config.gradle"
 
-uploadArchives{
-    repositories.mavenDeployer{
-        repository(url: uri('../repository'))// 配置本地仓库路径，项目根目录下的repository目录中
-        pom.groupId = "com.github.luotengyuan.TyTool"// 唯一标识（通常为模块包名，也可以任意）
-        pom.artifactId = model.getName() // 项目名称（通常为类库模块名称，也可以任意）
-        pom.version = rootProject.ext.publish.version // 版本号
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId = rootProject.ext.publish.groupId
+            artifactId = model.getName()
+            version = rootProject.ext.publish.version
+            afterEvaluate {
+                // 根据不同模块类型配置不同逻辑
+                if (plugins.hasPlugin('com.android.library')) {
+                    printf("localMavenPublish: android library")
+                    from components.release
+                } else if (plugins.hasPlugin('java-library')) {
+                    printf("localMavenPublish: java library")
+                    from components.java
+                    artifact sourcesJar // 添加源码发布配置
+                    artifact docJar // 添加源码发布配置
+                }
+            }
+        }
+    }
+    if (rootProject.ext.publish.type == 1) {
+        repositories {
+            maven {
+                url = uri("${rootProject.projectDir}/repository") // 动态路径配置
+            }
+        }
     }
 }
+
+if (plugins.hasPlugin('java-library')) {
+    tasks.withType(Javadoc).configureEach {
+        options.addStringOption('Xdoclint:none', '-quiet') // 【临时】禁用严格检查
+        options.encoding = 'UTF-8'                        // 统一编码
+    }
+
+    tasks.register('sourcesJar', Jar) {
+        from sourceSets.main.allJava
+        archiveClassifier = 'sources'
+    }
+
+    tasks.register('docJar', Jar) {
+        dependsOn javadoc // 确保先执行javadoc任务
+        from javadoc.destinationDir // 使用javadoc生成的文档目录
+        archiveClassifier = 'javadoc' // 修改分类器标识
+    }
+}
+
+

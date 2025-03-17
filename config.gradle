@@ -1,23 +1,16 @@
 ext {
     android = [
-            compileSdkVersion: 29,
-            buildToolsVersion: "30.0.0",
+            compileSdkVersion: 35,
             minSdkVersion    : 21,
-            targetSdkVersion : 29
-    ]
-
-    dependencies = [
-            "appcompat"                 : "androidx.appcompat:appcompat:1.1.0",
-            "material"                  : "com.google.android.material:material:1.1.0",
-            "junit:junit"               : "junit:junit:4.1",
-            "androidx.test.ext:junit"   : "androidx.test.ext:junit:1.1.1",
-            "espresso-core"             : "androidx.test.espresso:espresso-core:3.2.0"
+            targetSdkVersion : 33
     ]
 
     publish = [
+            // 唯一标识（通常为模块包名，也可以任意）
+            "groupId": "com.github.luotengyuan.TyTool",
             // 发布版本号
-            "version"          : "1.0.7",
-            // 是否本地Maven发布，发布到github上时记得关闭
-            "local"            : false
+            "version": "1.0.8",
+            // 发布类型，0：JitPack 1：Maven Local 2: Maven Private
+            "type" : 0
     ]
 }

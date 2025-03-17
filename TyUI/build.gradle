@@ -1,20 +1,15 @@
-if (rootProject.ext.publish.local) {
-    apply plugin: 'com.android.library'
-    // 发布本地Maven版本
-    apply from: rootProject.file('localMavenPublish.gradle')
-} else {
-    apply plugin: 'com.android.library'
-    // 发布在线JitPack的Maven版本
-    apply plugin: 'com.github.dcendents.android-maven'
+plugins {
+    alias(libs.plugins.android.library)
 }
+apply from: rootProject.file('localMavenPublish.gradle')
 
 android {
-    compileSdkVersion rootProject.ext.android.compileSdkVersion
-    buildToolsVersion rootProject.ext.android.buildToolsVersion
+    namespace 'com.lois.tytool.ui'
+    compileSdk rootProject.ext.android.compileSdkVersion
 
     defaultConfig {
-        minSdkVersion rootProject.ext.android.minSdkVersion
-        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        minSdk rootProject.ext.android.minSdkVersion
+        targetSdk rootProject.ext.android.targetSdkVersion
         versionCode 1
         versionName "1.0"
 
@@ -32,14 +27,22 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()     // 包含源码
+            withJavadocJar()    // 包含文档（需dokka插件）
+        }
+    }
 }
 
 dependencies {
-    implementation rootProject.ext.dependencies["appcompat"]
-    implementation rootProject.ext.dependencies["material"]
+    implementation libs.appcompat
+    implementation libs.material
+    implementation libs.activity
+    implementation libs.constraintlayout
+    testImplementation libs.junit
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
     compileOnly project(path: ':TyBase')
     compileOnly project(path: ':TyKit')
-    testImplementation rootProject.ext.dependencies["junit:junit"]
-    androidTestImplementation rootProject.ext.dependencies["androidx.test.ext:junit"]
-    androidTestImplementation rootProject.ext.dependencies["espresso-core"]
 }

@@ -21,7 +21,6 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
-import com.lois.tytool.BuildConfig;
 import com.lois.tytool.R;
 import com.lois.tytool.dialog.Utils;
 
@@ -137,9 +136,7 @@ public class ArcProgress extends View {
                 try {
                     typeFace = ResourcesCompat.getFont(getContext(), fontId);
                 } catch (Exception e) {
-                    if (BuildConfig.DEBUG) {
-                        e.printStackTrace();
-                    }
+                    e.printStackTrace();
                 }
             }
         } else {

@@ -26,7 +26,7 @@ public class ContentViewDialogProvider extends DialogProvider<OtherDialogBuilder
                         dialogBuilder.getOnPositiveButtonClickListener());
 
         TypedValue typedValue = new TypedValue();
-        dialogBuilder.getContext().getTheme().resolveAttribute(R.attr.dialogPreferredPadding,
+        dialogBuilder.getContext().getTheme().resolveAttribute(androidx.appcompat.R.attr.dialogPreferredPadding,
                 typedValue, true);
 
         int DIALOG_SPACING_TOP = Utils.dp2px(dialogBuilder.getContext(), 20);

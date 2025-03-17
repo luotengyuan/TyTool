@@ -20,7 +20,9 @@
         android:theme="@style/Theme.TyTool"
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.TcpServerTestActivity">
+        <activity
+            android:name=".activity.TcpServerTestActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
